@@ -3,86 +3,105 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>OGE Ambassador Point Tracker | UGA</title>
+  <title>OGE Ambassador Program | UGA</title>
   <style>
     :root {
       --uga-red: #BA0C2F;
+      --uga-dark-red: #8B0000;
       --uga-black: #000000;
-      --uga-white: #FFFFFF;
-      --uga-gray: #F4F4F4;
-      --text-dark: #222222;
-      --focus-ring: #0056B3;
+      --uga-card-bg: rgba(255, 255, 255, 0.2);
+      --text-light: #FFFFFF;
+      --text-dark: #111111;
+      --focus-ring: #FFD700;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: Arial, Helvetica, sans-serif;
-      background-color: var(--uga-gray);
-      color: var(--text-dark);
-      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--uga-red);
+      color: var(--text-light);
+      min-height: 100vh;
       display: flex;
       justify-content: center;
-      min-height: 100vh;
+      align-items: flex-start;
       padding: 1rem;
     }
 
-    .app-container {
+    .app-viewport {
       width: 100%;
-      max-width: 480px;
-      background-color: var(--uga-white);
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      overflow: hidden;
+      max-width: 420px;
+      background-color: var(--uga-red);
+      min-height: 90vh;
       display: flex;
       flex-direction: column;
+      gap: 1.25rem;
     }
 
-    header {
+    /* HEADER */
+    .brand-header {
       background-color: var(--uga-black);
-      color: var(--uga-white);
-      padding: 1.25rem;
+      padding: 1rem;
       text-align: center;
-      border-bottom: 4px solid var(--uga-red);
+      border-radius: 4px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     }
 
-    header h1 {
-      font-size: 1.1rem;
+    .brand-header .sub-title {
+      font-size: 0.7rem;
       text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #CCC;
+    }
+
+    .brand-header h1 {
+      font-size: 1.25rem;
+      font-weight: 900;
       letter-spacing: 1px;
+      margin-top: 0.2rem;
     }
 
-    main { padding: 1.5rem; flex: 1; }
-
-    .card {
-      background: var(--uga-white);
-      border: 1px solid #DDD;
-      border-radius: 6px;
-      padding: 1.25rem;
-      margin-bottom: 1.25rem;
+    /* CARDS */
+    .figma-card {
+      background: var(--uga-card-bg);
+      backdrop-filter: blur(8px);
+      border-radius: 16px;
+      padding: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.3);
     }
 
-    .welcome-card {
-      background-color: var(--uga-red);
-      color: var(--uga-white);
+    .dark-card {
+      background-color: var(--uga-black);
+      color: var(--text-light);
       border: none;
     }
 
-    .welcome-card h2 { font-size: 1.5rem; margin-bottom: 0.25rem; }
-
-    label {
-      display: block;
-      font-weight: bold;
+    .greeting-title {
+      font-size: 1.8rem;
+      font-weight: 800;
+      line-height: 1.2;
       margin-bottom: 0.5rem;
     }
 
-    input, select, button {
+    /* FORM & BUTTONS */
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: bold;
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    input, select {
       width: 100%;
-      padding: 0.75rem;
-      margin-bottom: 1rem;
-      border: 1px solid #767676;
-      border-radius: 4px;
+      padding: 0.85rem 1rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--text-dark);
       font-size: 1rem;
+      margin-bottom: 1rem;
     }
 
     input:focus, select:focus, button:focus {
@@ -90,102 +109,177 @@
       outline-offset: 2px;
     }
 
-    button {
-      background-color: var(--uga-black);
-      color: var(--uga-white);
-      font-weight: bold;
-      border: none;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    button:hover { background-color: #333333; }
-
-    .progress-bar-container {
-      background-color: #E0E0E0;
-      border-radius: 12px;
-      height: 24px;
+    .pill-btn {
       width: 100%;
-      overflow: hidden;
-      margin: 0.75rem 0;
+      padding: 0.9rem;
+      border-radius: 25px;
+      border: none;
+      background-color: var(--uga-black);
+      color: var(--text-light);
+      font-weight: bold;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      transition: transform 0.1s ease, background 0.2s;
     }
 
-    .progress-bar-fill {
-      height: 100%;
-      background-color: var(--uga-red);
-      width: 0%;
-      transition: width 0.4s ease;
+    .pill-btn:hover {
+      background-color: #222222;
+      transform: translateY(-1px);
+    }
+
+    .pill-btn.light {
+      background-color: rgba(255, 255, 255, 0.9);
+      color: var(--text-dark);
+    }
+
+    /* SCORE & PROGRESS GAUGE */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 120px;
+      gap: 1rem;
+      align-items: stretch;
+    }
+
+    .circle-gauge {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--uga-card-bg);
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto 1rem auto;
+    }
+
+    .circle-gauge .val {
+      font-size: 1.8rem;
+      font-weight: bold;
+      line-height: 1;
+    }
+
+    .circle-gauge .lbl {
+      font-size: 0.6rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      opacity: 0.8;
+    }
+
+    .stacked-bar-container {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 8px;
+      height: 140px;
+      width: 100%;
+      display: flex;
+      flex-direction: column-reverse;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .stacked-bar-fill {
+      background-color: #FFF500; /* Yellow fill matching wireframe */
+      width: 100%;
+      height: 0%;
+      transition: height 0.5s ease;
+    }
+
+    .bar-markers {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 0.25rem 0.5rem;
+      font-size: 0.65rem;
+      color: rgba(255, 255, 255, 0.7);
+      pointer-events: none;
     }
 
     .hidden { display: none !important; }
 
     .status-msg {
       padding: 0.75rem;
-      border-radius: 4px;
+      border-radius: 8px;
       margin-top: 0.5rem;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
+      text-align: center;
     }
-    .status-msg.error { background-color: #F8D7DA; color: #721C24; }
-    .status-msg.success { background-color: #D4EDDA; color: #155724; }
+    .status-msg.error { background-color: #721C24; color: #FFF; }
+    .status-msg.success { background-color: #155724; color: #FFF; }
 
-    .sub-list { list-style: none; margin-top: 0.5rem; }
+    .sub-list { list-style: none; }
     .sub-list li {
-      padding: 0.5rem 0;
-      border-bottom: 1px solid #EEE;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
       display: flex;
       justify-content: space-between;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
     }
   </style>
 </head>
 <body>
 
-  <div class="app-container">
-    <header role="banner">
-      <h1>Office of Global Engagement</h1>
-      <p style="font-size: 0.85rem; color: #CCC;">Ambassador Program</p>
+  <div class="app-viewport">
+    
+    <!-- HEADER -->
+    <header class="brand-header" role="banner">
+      <div class="sub-title">Office of Global Engagement</div>
+      <h1>AMBASSADOR PROGRAM</h1>
     </header>
 
     <main id="main-content">
-      
-      <!-- STEP 1: LOGIN / IDENTIFICATION -->
-      <section id="login-section" aria-labelledby="login-heading">
-        <div class="card">
-          <h2 id="login-heading" style="margin-bottom: 1rem;">Ambassador Portal</h2>
+
+      <!-- LOGIN CARD -->
+      <section id="login-section">
+        <div class="figma-card">
+          <h2 class="greeting-title" style="margin-bottom: 1rem;">Welcome!</h2>
           <form id="login-form">
-            <label for="student-name">Enter Full Name:</label>
+            <label for="student-name">Enter Your Name:</label>
             <input type="text" id="student-name" required placeholder="e.g. Charlotte Holzapfel" />
-            <button type="submit">Access Dashboard</button>
+            <button type="submit" class="pill-btn">Access Portal</button>
           </form>
         </div>
       </section>
 
-      <!-- STEP 2: DASHBOARD -->
-      <section id="dashboard-section" class="hidden" aria-labelledby="welcome-msg">
-        <div class="card welcome-card">
-          <h2 id="welcome-msg">Hi, <span id="display-name">Ambassador</span>!</h2>
-          <p>Welcome back to your point tracker.</p>
-        </div>
-
-        <div class="card" aria-labelledby="points-heading">
-          <h3 id="points-heading">Point Progress</h3>
-          <p style="font-size: 0.9rem; margin-top: 0.25rem;">
-            Program: <strong id="display-program">--</strong>
-          </p>
-          
-          <div class="progress-bar-container" role="progressbar" id="progress-bar-element" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-            <div class="progress-bar-fill" id="progress-fill"></div>
+      <!-- DASHBOARD (FIGMA MATCH) -->
+      <section id="dashboard-section" class="hidden">
+        
+        <div class="dashboard-grid">
+          <!-- LEFT: GREETING & UPLOAD ACTION -->
+          <div class="figma-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <h2 class="greeting-title">Hi, <span id="display-name">Charlotte</span>.<br/>Welcome back!</h2>
+            </div>
+            <button id="open-upload-btn" class="pill-btn light" style="margin-top: 1.5rem;">Upload Your Content</button>
           </div>
-          
-          <p style="text-align: right; font-weight: bold; font-size: 1.1rem;">
-            <span id="pts-achieved">0</span> / <span id="pts-needed">0</span> Points
-          </p>
+
+          <!-- RIGHT: POINTS GAUGE CARD -->
+          <div class="figma-card dark-card" style="text-align: center; padding: 1rem 0.5rem;">
+            <div class="circle-gauge">
+              <span class="lbl">POINTS</span>
+              <span class="val" id="pts-achieved">0</span>
+            </div>
+
+            <div class="stacked-bar-container" role="progressbar" id="progress-bar-element" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+              <div class="stacked-bar-fill" id="progress-fill"></div>
+              <div class="bar-markers">
+                <span>75%</span>
+                <span>50%</span>
+                <span>25%</span>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <!-- SUBMISSION FORM -->
-        <div class="card">
-          <h3>Submit New Activity</h3>
-          <form id="submission-form" style="margin-top: 1rem;">
+        <!-- UPLOAD / SUBMISSION FORM (SLIDES OPEN OR SHOWN BELOW) -->
+        <div id="upload-card" class="figma-card hidden" style="margin-top: 1.25rem;">
+          <h3 style="margin-bottom: 1rem;">Submit Activity</h3>
+          <form id="submission-form">
             <label for="user-email">UGA Email:</label>
             <input type="email" id="user-email" required placeholder="username@uga.edu" />
 
@@ -198,43 +292,43 @@
               <option value="Blog/Article">Blog/Article (15 pts)</option>
             </select>
 
-            <label for="file-upload">Upload Proof / Content (Optional):</label>
+            <label for="file-upload">Upload Content / File:</label>
             <input type="file" id="file-upload" accept="image/*,application/pdf" />
 
-            <button type="submit" id="submit-btn">Submit Content</button>
+            <button type="submit" id="submit-btn" class="pill-btn">Submit</button>
           </form>
           <div id="form-feedback" class="status-msg hidden" aria-live="polite"></div>
         </div>
 
-        <!-- HISTORY -->
-        <div class="card">
-          <h3>Submission History</h3>
+        <!-- RECENT SUBMISSIONS -->
+        <div class="figma-card" style="margin-top: 1.25rem;">
+          <h3 style="margin-bottom: 0.75rem;">My Submissions</h3>
           <ul id="history-list" class="sub-list">
             <li><span>No submissions logged yet.</span></li>
           </ul>
-          <button id="logout-btn" style="margin-top: 1.5rem; background-color: #555555;">Switch Account</button>
+          <button id="logout-btn" class="pill-btn" style="margin-top: 1.25rem; background-color: rgba(0,0,0,0.4);">Switch Account</button>
         </div>
+
       </section>
 
     </main>
   </div>
 
   <script>
-    // REPLACE WITH YOUR DEPLOYED APPS SCRIPT WEB APP URL
+    // PASTE YOUR DEPLOYED APPS SCRIPT WEB APP URL HERE
     const SCRIPT_URL = "YOUR_EXACT_DEPLOYED_APPS_SCRIPT_URL_HERE";
 
     const loginSection = document.getElementById('login-section');
     const dashboardSection = document.getElementById('dashboard-section');
     const loginForm = document.getElementById('login-form');
     const submissionForm = document.getElementById('submission-form');
+    const uploadCard = document.getElementById('upload-card');
+    const openUploadBtn = document.getElementById('open-upload-btn');
     const feedback = document.getElementById('form-feedback');
 
-    // Check Local Storage on startup
     document.addEventListener('DOMContentLoaded', () => {
       const savedName = localStorage.getItem('oge_ambassador_name');
-      if (savedName) {
-        loadDashboard(savedName);
-      }
+      if (savedName) loadDashboard(savedName);
     });
 
     loginForm.addEventListener('submit', (e) => {
@@ -244,6 +338,10 @@
         localStorage.setItem('oge_ambassador_name', name);
         loadDashboard(name);
       }
+    });
+
+    openUploadBtn.addEventListener('click', () => {
+      uploadCard.classList.toggle('hidden');
     });
 
     document.getElementById('logout-btn').addEventListener('click', () => {
@@ -262,19 +360,17 @@
         const data = await res.json();
 
         if (data.status === 'success') {
-          document.getElementById('display-program').textContent = data.program;
           document.getElementById('pts-achieved').textContent = data.pointsAchieved;
-          document.getElementById('pts-needed').textContent = data.pointsNeeded;
 
-          // Update Progress Bar
+          // Calculate Percentage and animate vertical bar
           const pct = Math.min(100, Math.round((data.pointsAchieved / data.pointsNeeded) * 100));
           const fill = document.getElementById('progress-fill');
-          fill.style.width = `${pct}%`;
+          fill.style.height = `${pct}%`;
           
           const bar = document.getElementById('progress-bar-element');
           bar.setAttribute('aria-valuenow', pct);
 
-          // Build History List
+          // Populate History List
           const historyList = document.getElementById('history-list');
           historyList.innerHTML = '';
           if (data.history.length === 0) {
@@ -287,7 +383,7 @@
             });
           }
         } else {
-          alert('Ambassador record not found. Please verify the exact name recorded in the master spreadsheet.');
+          alert('Ambassador record not found. Please check your name as listed on the spreadsheet.');
           document.getElementById('logout-btn').click();
         }
       } catch (err) {
@@ -300,7 +396,6 @@
       const submitBtn = document.getElementById('submit-btn');
       submitBtn.disabled = true;
       submitBtn.textContent = 'Uploading...';
-
       feedback.classList.add('hidden');
 
       const name = localStorage.getItem('oge_ambassador_name');
@@ -308,10 +403,7 @@
       const activity = document.getElementById('activity-select').value;
       const fileInput = document.getElementById('file-upload');
 
-      let fileData = null;
-      let fileName = null;
-      let fileMime = null;
-
+      let fileData = null, fileName = null, fileMime = null;
       if (fileInput.files.length > 0) {
         const file = fileInput.files[0];
         fileName = file.name;
@@ -327,20 +419,19 @@
           body: JSON.stringify(payload)
         });
 
-        feedback.textContent = 'Submission successful!';
+        feedback.textContent = 'Content uploaded successfully!';
         feedback.className = 'status-msg success';
         feedback.classList.remove('hidden');
         submissionForm.reset();
         
-        // Refresh dashboard statistics
         loadDashboard(name);
       } catch (err) {
-        feedback.textContent = 'Submission failed. Please try again.';
+        feedback.textContent = 'Upload failed. Try again.';
         feedback.className = 'status-msg error';
         feedback.classList.remove('hidden');
       } finally {
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Submit Content';
+        submitBtn.textContent = 'Submit';
       }
     });
 
