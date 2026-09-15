@@ -3,304 +3,620 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>OGE Ambassador Program</title>
+  <title>OGE Ambassador Program | University of Georgia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --uga-red: #BA0C2F;
       --uga-black: #000000;
+      --uga-dark-black: #0D0D0D;
+      --art-deco-gold: #C5A059;
+      --art-deco-light-gold: #E5C17C;
       --uga-yellow: #FFE500;
       --uga-white: #FFFFFF;
-      --btn-bg: rgba(255, 255, 255, 0.85);
+      --panel-border: 1px solid var(--art-deco-gold);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    /* ZERO ROUNDED EDGES & ZERO SCROLLING */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      border-radius: 0 !important; /* Strictly no rounded corners */
+    }
 
-    body {
-      background-color: #1A1A1A;
+    html, body {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden; /* Prevents desktop scrolling */
+      background-color: var(--uga-dark-black);
+      font-family: 'Montserrat', sans-serif;
+      color: var(--uga-white);
+    }
+
+    /* FULL DESKTOP LAYOUT WRAPPER */
+    .viewport-container {
+      width: 100vw;
+      height: 100vh;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
+      background: linear-gradient(135deg, #000000 0%, #1A0306 100%);
+      border: 6px solid var(--art-deco-gold);
+    }
+
+    /* ART DECO BRAND HEADER BANNER */
+    .brand-header {
+      background-color: var(--uga-black);
+      border-bottom: 2px solid var(--art-deco-gold);
+      padding: 0.8rem 2rem;
+      display: flex;
+      justify-content: space-between;
       align-items: center;
-      min-height: 100vh;
-      padding: 1rem;
+      z-index: 10;
     }
 
-    /* DESKTOP FRAME (FIGMA MACBOOK VIEW) */
-    .figma-desktop-frame {
+    .brand-header .title-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-header .sub-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      letter-spacing: 3px;
+      color: var(--art-deco-gold);
+      text-transform: uppercase;
+    }
+
+    .brand-header h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.35rem;
+      font-weight: 900;
+      letter-spacing: 2.5px;
+      color: var(--uga-white);
+    }
+
+    .deco-line {
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--art-deco-gold), transparent);
       width: 100%;
-      max-width: 960px;
-      background-color: var(--uga-red);
-      border-radius: 12px;
-      overflow: hidden;
-      display: grid;
-      grid-template-columns: 1fr;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
     }
 
-    @media (min-width: 768px) {
-      .figma-desktop-frame {
-        grid-template-columns: 1.4fr 1fr;
-        min-height: 520px;
-      }
+    /* MAIN VIEWPORT PANELS */
+    main {
+      flex: 1;
+      position: relative;
+      width: 100%;
+      height: calc(100vh - 65px);
     }
 
-    /* LEFT CONTAINER: GREETING & UPLOAD */
-    .left-panel {
+    .screen-view {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      padding: 2rem;
+      gap: 2rem;
+    }
+
+    .hidden { display: none !important; }
+
+    /* SCREEN 1: ONBOARDING / LOGIN */
+    .onboarding-frame {
+      width: 100%;
+      max-width: 520px;
+      margin: auto;
+      background-color: var(--uga-black);
+      border: var(--panel-border);
       padding: 2.5rem;
+      box-shadow: 0 0 35px rgba(197, 160, 89, 0.15);
+    }
+
+    .art-deco-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--art-deco-gold);
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    label {
+      display: block;
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      letter-spacing: 1.5px;
+      color: var(--art-deco-light-gold);
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      background-color: #141414;
+      border: 1px solid #333;
+      color: var(--uga-white);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.95rem;
+      transition: border-color 0.2s;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--art-deco-gold);
+    }
+
+    .deco-btn {
+      width: 100%;
+      padding: 1rem;
+      background: var(--uga-red);
+      color: var(--uga-white);
+      border: 1px solid var(--art-deco-gold);
+      font-family: 'Cinzel', serif;
+      font-size: 0.9rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .deco-btn:hover {
+      background: #900822;
+      border-color: var(--uga-white);
+    }
+
+    .deco-btn.outline {
+      background: transparent;
+      color: var(--art-deco-gold);
+      border: 1px solid var(--art-deco-gold);
+    }
+
+    .deco-btn.outline:hover {
+      background: var(--art-deco-gold);
+      color: var(--uga-black);
+    }
+
+    /* SCREEN 2: MAIN DASHBOARD (FIGMA DESKTOP MATCH) */
+    .dashboard-layout {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      width: 100%;
+      height: 100%;
+      gap: 2rem;
+    }
+
+    /* LEFT PANEL: RED CANVAS WITH ACTION BUTTONS */
+    .dash-left {
+      background-color: var(--uga-red);
+      border: var(--panel-border);
+      padding: 3rem;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      color: var(--uga-white);
     }
 
-    .brand-banner {
-      background-color: var(--uga-black);
-      padding: 0.6rem 1rem;
-      text-align: center;
-      margin: -2.5rem -2.5rem 2rem -2.5rem;
-    }
-
-    .brand-banner .sub {
-      font-size: 0.65rem;
-      letter-spacing: 1.5px;
-      color: #DDD;
-      text-transform: uppercase;
-    }
-
-    .brand-banner h1 {
-      font-size: 1.1rem;
-      font-weight: 800;
-      letter-spacing: 2px;
-      font-family: Georgia, serif;
-    }
-
-    .greeting {
-      font-size: 2.4rem;
+    .greeting-text {
+      font-family: 'Cinzel', serif;
+      font-size: 2.8rem;
       font-weight: 800;
       line-height: 1.15;
-      margin-bottom: 2rem;
-    }
-
-    /* DROPZONE CARD */
-    .upload-box {
-      background-color: var(--btn-bg);
-      border-radius: 20px;
-      padding: 1.5rem;
-      text-align: center;
-      color: #333;
-      cursor: pointer;
-      transition: transform 0.2s, background-color 0.2s;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .upload-box:hover {
-      background-color: #FFFFFF;
-      transform: translateY(-2px);
-    }
-
-    .upload-icon {
-      width: 36px;
-      height: 36px;
-      border: 2px dashed #666;
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      color: #666;
-    }
-
-    .pill-nav {
-      background-color: var(--btn-bg);
-      border-radius: 25px;
-      padding: 0.85rem;
-      text-align: center;
-      color: #555;
-      font-weight: 700;
-      font-size: 0.8rem;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-top: 0.75rem;
-      cursor: pointer;
-    }
-
-    /* RIGHT CONTAINER: BLACK POINTS CARD */
-    .right-panel {
-      background-color: var(--uga-black);
-      padding: 2.5rem 2rem;
-      display: flex;
-      flex-direction: column;
       color: var(--uga-white);
+      letter-spacing: 1px;
     }
 
-    .right-panel h2 {
-      font-size: 1.3rem;
+    .action-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .action-pill {
+      background-color: rgba(255, 255, 255, 0.9);
+      color: var(--uga-black);
+      padding: 1.1rem 1.5rem;
+      font-family: 'Cinzel', serif;
+      font-weight: 800;
+      font-size: 0.85rem;
       letter-spacing: 2px;
-      margin-bottom: 2rem;
-      font-weight: 700;
+      text-transform: uppercase;
+      text-align: center;
+      border: 1px solid var(--uga-black);
+      cursor: pointer;
+      transition: all 0.2s;
     }
 
-    .points-display-grid {
+    .action-pill:hover {
+      background-color: var(--uga-black);
+      color: var(--art-deco-gold);
+      border-color: var(--art-deco-gold);
+    }
+
+    /* RIGHT PANEL: BLACK CARD WITH CIRCULAR BADGE & THERMOMETER */
+    .dash-right {
+      background-color: var(--uga-black);
+      border: var(--panel-border);
+      padding: 3rem 2rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .dash-right h2 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.5rem;
+      letter-spacing: 3px;
+      color: var(--art-deco-gold);
+    }
+
+    .gauge-display-container {
+      flex: 1;
       display: flex;
       align-items: center;
       justify-content: space-around;
-      flex: 1;
     }
 
-    /* CIRCULAR POINTS BADGE */
     .circle-badge {
-      width: 110px;
-      height: 110px;
-      border-radius: 50%;
-      background-color: #222;
-      border: 1px solid #444;
+      width: 130px;
+      height: 130px;
+      border: 2px solid var(--art-deco-gold);
+      background-color: #111;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 2.8rem;
-      font-weight: 800;
+      font-family: 'Cinzel', serif;
+      font-size: 3.2rem;
+      font-weight: 900;
+      color: var(--uga-white);
+      box-shadow: 0 0 20px rgba(197, 160, 89, 0.2);
     }
 
-    /* VERTICAL THERMOMETER GAUGE */
-    .gauge-wrapper {
+    .gauge-column {
       display: flex;
-      gap: 0.75rem;
+      gap: 1rem;
       align-items: center;
-    }
-
-    .gauge-bar {
-      width: 45px;
-      height: 200px;
-      background-color: #222;
-      border-radius: 4px;
-      display: flex;
-      flex-direction: column-reverse;
-      overflow: hidden;
-      border: 1px solid #333;
-    }
-
-    .gauge-fill {
-      background-color: var(--uga-yellow);
-      width: 100%;
-      height: 60%; /* Dynamic percent fill */
-      transition: height 0.5s ease-in-out;
     }
 
     .gauge-ticks {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      height: 200px;
-      font-size: 0.7rem;
-      color: #AAA;
-      font-weight: 600;
+      height: 240px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--art-deco-gold);
     }
 
-    .hidden { display: none !important; }
+    .gauge-frame {
+      width: 55px;
+      height: 240px;
+      background-color: #141414;
+      border: 1px solid var(--art-deco-gold);
+      display: flex;
+      flex-direction: column-reverse;
+      overflow: hidden;
+    }
+
+    .gauge-fill {
+      background-color: var(--uga-yellow);
+      width: 100%;
+      height: 0%; /* Dynamic fill based on points */
+      transition: height 0.8s ease-in-out;
+    }
+
+    /* SCREEN 3: UPLOAD PANEL SCREEN */
+    .upload-screen-panel {
+      width: 100%;
+      max-width: 700px;
+      margin: auto;
+      background-color: var(--uga-black);
+      border: var(--panel-border);
+      padding: 2.5rem;
+    }
+
+    .sub-history-list {
+      list-style: none;
+      max-height: 150px;
+      overflow-y: auto;
+      border: 1px solid #222;
+      padding: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .sub-history-list li {
+      padding: 0.5rem;
+      border-bottom: 1px solid #222;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+    }
   </style>
 </head>
 <body>
 
-  <div class="figma-desktop-frame">
+  <div class="viewport-container">
     
-    <!-- LEFT PANEL -->
-    <div class="left-panel">
-      <div>
-        <div class="brand-banner">
-          <div class="sub">Office of Global Engagement</div>
-          <h1>AMBASSADOR PROGRAM</h1>
-        </div>
+    <!-- BRAND HEADER -->
+    <header class="brand-header">
+      <div class="title-group">
+        <span class="sub-title">Office of Global Engagement</span>
+        <h1>Ambassador Program</h1>
+      </div>
+      <button id="reset-account-btn" class="deco-btn outline" style="width: auto; padding: 0.4rem 1rem; font-size: 0.7rem;">Switch Account</button>
+    </header>
+    <div class="deco-line"></div>
 
-        <!-- LOGIN OR GREETING -->
-        <div id="login-view">
-          <h2 class="greeting">Enter Name</h2>
-          <input type="text" id="name-input" placeholder="e.g. Charlotte Holzapfel" style="width: 100%; padding: 0.8rem; border-radius: 12px; border: none; margin-bottom: 1rem; font-size: 1rem;"/>
-          <select id="prog-input" style="width: 100%; padding: 0.8rem; border-radius: 12px; border: none; margin-bottom: 1rem; font-size: 1rem;">
-            <option value="Week">Week (60 Pts)</option>
-            <option value="Maymester">Maymester (100 Pts)</option>
-            <option value="Semester">Semester (150 Pts)</option>
-          </select>
-          <div class="pill-nav" id="login-btn" style="background: #000; color: #FFF;">Enter Portal</div>
-        </div>
+    <main>
 
-        <div id="dash-view" class="hidden">
-          <h2 class="greeting">Hi, <span id="user-first-name">Charlotte</span>.<br/>Welcome back!</h2>
+      <!-- SCREEN 1: ONBOARDING / SETUP (SHOWN FIRST TIME ONLY) -->
+      <section id="screen-onboarding" class="screen-view">
+        <div class="onboarding-frame">
+          <h2 class="art-deco-title">Ambassador Portal</h2>
+          <p style="font-size: 0.85rem; color: #AAA; margin-bottom: 1.5rem;">Enter your details to register or recover your tracking profile.</p>
+
+          <form id="onboarding-form">
+            <div class="form-group">
+              <label for="input-name">Full Name</label>
+              <input type="text" id="input-name" required placeholder="e.g. Charlotte Holzapfel" />
+            </div>
+
+            <div class="form-group">
+              <label for="input-email">UGA Email Address</label>
+              <input type="email" id="input-email" required placeholder="username@uga.edu" />
+            </div>
+
+            <div class="form-group">
+              <label for="input-program">Length of Program</label>
+              <select id="input-program" required>
+                <option value="">-- Select Program --</option>
+                <option value="Week">Week (60 Points Required)</option>
+                <option value="Maymester">Maymester (100 Points Required)</option>
+                <option value="Semester">Semester (150 Points Required)</option>
+              </select>
+            </div>
+
+            <button type="submit" class="deco-btn">Initialize Portal</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- SCREEN 2: MAIN DASHBOARD (FIGMA MACBOOK LOOK) -->
+      <section id="screen-dashboard" class="screen-view hidden">
+        <div class="dashboard-layout">
           
-          <div class="upload-box" id="upload-trigger">
-            <div class="upload-icon">+</div>
-            <span style="font-weight: 700; font-size: 0.9rem;">Upload your content</span>
+          <!-- LEFT CANVAS -->
+          <div class="dash-left">
+            <div>
+              <h2 class="greeting-text">Hi, <span id="dash-first-name">Ambassador</span>.<br/>Welcome back!</h2>
+            </div>
+
+            <div class="action-stack">
+              <div class="action-pill" id="btn-goto-upload">Upload Your Content</div>
+              <div class="action-pill" id="btn-view-submissions">My Submissions</div>
+            </div>
           </div>
 
-          <div class="pill-nav">List of Activities</div>
-          <div class="pill-nav">My Submissions</div>
+          <!-- RIGHT CANVAS: POINTS GAUGE -->
+          <div class="dash-right">
+            <h2>POINTS:</h2>
+            <div class="gauge-display-container">
+              
+              <div class="circle-badge" id="dash-pts-val">0</div>
+
+              <div class="gauge-column">
+                <div class="gauge-ticks">
+                  <span>75%</span>
+                  <span>50%</span>
+                  <span>25%</span>
+                </div>
+                <div class="gauge-frame">
+                  <div class="gauge-fill" id="dash-gauge-fill"></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
         </div>
-      </div>
-    </div>
+      </section>
 
-    <!-- RIGHT PANEL (BLACK CARD) -->
-    <div class="right-panel">
-      <h2>POINTS:</h2>
-      <div class="points-display-grid">
-        <div class="circle-badge" id="pts-val">90</div>
+      <!-- SCREEN 3: UPLOAD CONTENT PANEL -->
+      <section id="screen-upload" class="screen-view hidden">
+        <div class="upload-screen-panel">
+          <h2 class="art-deco-title">Submit Activity</h2>
+          <p style="font-size: 0.85rem; color: #AAA; margin-bottom: 1.5rem;">Upload proof of activity to register points to your account.</p>
 
-        <div class="gauge-wrapper">
-          <div class="gauge-ticks">
-            <span>75%</span>
-            <span>50%</span>
-            <span>25%</span>
-          </div>
-          <div class="gauge-bar">
-            <div class="gauge-fill" id="gauge-fill-bar"></div>
+          <form id="upload-form">
+            <div class="form-group">
+              <label for="upload-activity">Activity Performed</label>
+              <select id="upload-activity" required>
+                <option value="">-- Select Activity --</option>
+                <option value="Social Media Post">Social Media Post (10 pts)</option>
+                <option value="Tabling Event">Tabling Event (20 pts)</option>
+                <option value="Presentation">Presentation (30 pts)</option>
+                <option value="Blog/Article">Blog/Article (15 pts)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="upload-file">Upload Proof File (Optional)</label>
+              <input type="file" id="upload-file" accept="image/*,application/pdf" />
+            </div>
+
+            <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+              <button type="submit" id="submit-upload-btn" class="deco-btn">Submit Content</button>
+              <button type="button" id="btn-back-dash" class="deco-btn outline">Back to Dashboard</button>
+            </div>
+          </form>
+
+          <div id="submissions-modal-box" style="margin-top: 2rem;">
+            <label>Recent Logged Submissions</label>
+            <ul id="history-list" class="sub-history-list">
+              <li><span>No submissions logged yet.</span></li>
+            </ul>
           </div>
         </div>
-      </div>
-    </div>
+      </section>
 
+    </main>
   </div>
 
   <script>
+    // DEPLOYED APPS SCRIPT WEB APP URL
     const SCRIPT_URL = "YOUR_EXACT_DEPLOYED_APPS_SCRIPT_URL_HERE";
 
-    const loginView = document.getElementById('login-view');
-    const dashView = document.getElementById('dash-view');
-    const loginBtn = document.getElementById('login-btn');
+    // SCREEN ELEMENTS
+    const screenOnboarding = document.getElementById('screen-onboarding');
+    const screenDashboard = document.getElementById('screen-dashboard');
+    const screenUpload = document.getElementById('screen-upload');
 
-    loginBtn.addEventListener('click', () => {
-      const name = document.getElementById('name-input').value.trim();
-      const prog = document.getElementById('prog-input').value;
-      if (name) {
-        localStorage.setItem('oge_name', name);
-        localStorage.setItem('oge_prog', prog);
-        initDash(name, prog);
+    // FORMS & BUTTONS
+    const onboardingForm = document.getElementById('onboarding-form');
+    const uploadForm = document.getElementById('upload-form');
+    const btnGotoUpload = document.getElementById('btn-goto-upload');
+    const btnViewSubmissions = document.getElementById('btn-view-submissions');
+    const btnBackDash = document.getElementById('btn-back-dash');
+    const resetAccountBtn = document.getElementById('reset-account-btn');
+
+    // INITIALIZATION CHECK
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedName = localStorage.getItem('oge_user_name');
+      const savedEmail = localStorage.getItem('oge_user_email');
+      const savedProg = localStorage.getItem('oge_user_program');
+
+      if (savedName && savedEmail && savedProg) {
+        showDashboard(savedName, savedEmail, savedProg);
       }
     });
 
-    document.addEventListener('DOMContentLoaded', () => {
-      const savedName = localStorage.getItem('oge_name');
-      const savedProg = localStorage.getItem('oge_prog');
-      if (savedName) initDash(savedName, savedProg);
+    // SCREEN NAVIGATION SWITCHER
+    function switchScreen(activeScreen) {
+      screenOnboarding.classList.add('hidden');
+      screenDashboard.classList.add('hidden');
+      screenUpload.classList.add('hidden');
+
+      activeScreen.classList.remove('hidden');
+    }
+
+    // ONBOARDING SUBMIT
+    onboardingForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('input-name').value.trim();
+      const email = document.getElementById('input-email').value.trim();
+      const program = document.getElementById('input-program').value;
+
+      if (name && email && program) {
+        localStorage.setItem('oge_user_name', name);
+        localStorage.setItem('oge_user_email', email);
+        localStorage.setItem('oge_user_program', program);
+
+        showDashboard(name, email, program);
+      }
     });
 
-    async function initDash(fullName, prog) {
-      loginView.classList.add('hidden');
-      dashView.classList.remove('hidden');
+    // SHOW DASHBOARD & FETCH DATA
+    async function showDashboard(fullName, email, program) {
+      switchScreen(screenDashboard);
 
       const firstName = fullName.split(' ')[0];
-      document.getElementById('user-first-name').textContent = firstName;
+      document.getElementById('dash-first-name').textContent = firstName;
 
       try {
-        const res = await fetch(`${SCRIPT_URL}?name=${encodeURIComponent(fullName)}&program=${encodeURIComponent(prog)}`);
+        const res = await fetch(`${SCRIPT_URL}?name=${encodeURIComponent(fullName)}&program=${encodeURIComponent(program)}`);
         const data = await res.json();
+
         if (data.status === 'success') {
-          document.getElementById('pts-val').textContent = data.pointsAchieved;
+          document.getElementById('dash-pts-val').textContent = data.pointsAchieved;
+
           const pct = Math.min(100, Math.round((data.pointsAchieved / data.pointsNeeded) * 100));
-          document.getElementById('gauge-fill-bar').style.height = `${pct}%`;
+          document.getElementById('dash-gauge-fill').style.height = `${pct}%`;
+
+          // Populate History List
+          const historyList = document.getElementById('history-list');
+          historyList.innerHTML = '';
+          if (data.history.length === 0) {
+            historyList.innerHTML = '<li><span>No submissions recorded.</span></li>';
+          } else {
+            data.history.forEach(item => {
+              const li = document.createElement('li');
+              li.innerHTML = `<span>${item.activity}</span><strong>+${item.points} pts</strong>`;
+              historyList.appendChild(li);
+            });
+          }
         }
-      } catch(e) { console.error(e); }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    // BUTTON NAVIGATION LISTENERS
+    btnGotoUpload.addEventListener('click', () => switchScreen(screenUpload));
+    btnViewSubmissions.addEventListener('click', () => switchScreen(screenUpload));
+    btnBackDash.addEventListener('click', () => switchScreen(screenDashboard));
+
+    resetAccountBtn.addEventListener('click', () => {
+      localStorage.clear();
+      switchScreen(screenOnboarding);
+    });
+
+    // UPLOAD CONTENT SUBMIT
+    uploadForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submitBtn = document.getElementById('submit-upload-btn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'TRANSMITTING...';
+
+      const name = localStorage.getItem('oge_user_name');
+      const email = localStorage.getItem('oge_user_email');
+      const program = localStorage.getItem('oge_user_program');
+      const activity = document.getElementById('upload-activity').value;
+      const fileInput = document.getElementById('upload-file');
+
+      let fileData = null, fileName = null, fileMime = null;
+      if (fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        fileName = file.name;
+        fileMime = file.type;
+        fileData = await convertBase64(file);
+      }
+
+      const payload = { name, email, activity, fileData, fileName, fileMime };
+
+      try {
+        await fetch(SCRIPT_URL, {
+          method: 'POST',
+          body: JSON.stringify(payload)
+        });
+
+        uploadForm.reset();
+        await showDashboard(name, email, program);
+        switchScreen(screenDashboard);
+      } catch (err) {
+        alert('Submission error. Please try again.');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Content';
+      }
+    });
+
+    function convertBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+      });
     }
   </script>
 </body>
