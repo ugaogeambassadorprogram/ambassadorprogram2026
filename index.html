@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>OGE Ambassador Point Tracker | UGA</title>
+  <style>
+    :root {
+      --uga-red: #BA0C2F;
+      --uga-black: #000000;
+      --uga-white: #FFFFFF;
+      --uga-gray: #F4F4F4;
+      --text-dark: #222222;
+      --focus-ring: #0056B3;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: var(--uga-gray);
+      color: var(--text-dark);
+      line-height: 1.6;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 1rem;
+    }
+
+    .app-container {
+      width: 100%;
+      max-width: 480px;
+      background-color: var(--uga-white);
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background-color: var(--uga-black);
+      color: var(--uga-white);
+      padding: 1.25rem;
+      text-align: center;
+      border-bottom: 4px solid var(--uga-red);
+    }
+
+    header h1 {
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    main { padding: 1.5rem; flex: 1; }
+
+    .card {
+      background: var(--uga-white);
+      border: 1px solid #DDD;
+      border-radius: 6px;
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .welcome-card {
+      background-color: var(--uga-red);
+      color: var(--uga-white);
+      border: none;
+    }
+
+    .welcome-card h2 { font-size: 1.5rem; margin-bottom: 0.25rem; }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #767676;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+
+    input:focus, select:focus, button:focus {
+      outline: 3px solid var(--focus-ring);
+      outline-offset: 2px;
+    }
+
+    button {
+      background-color: var(--uga-black);
+      color: var(--uga-white);
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    button:hover { background-color: #333333; }
+
+    .progress-bar-container {
+      background-color: #E0E0E0;
+      border-radius: 12px;
+      height: 24px;
+      width: 100%;
+      overflow: hidden;
+      margin: 0.75rem 0;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background-color: var(--uga-red);
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    .hidden { display: none !important; }
+
+    .status-msg {
+      padding: 0.75rem;
+      border-radius: 4px;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+    }
+    .status-msg.error { background-color: #F8D7DA; color: #721C24; }
+    .status-msg.success { background-color: #D4EDDA; color: #155724; }
+
+    .sub-list { list-style: none; margin-top: 0.5rem; }
+    .sub-list li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #EEE;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <header role="banner">
+      <h1>Office of Global Engagement</h1>
+      <p style="font-size: 0.85rem; color: #CCC;">Ambassador Program</p>
+    </header>
+
+    <main id="main-content">
+      
+      <!-- STEP 1: LOGIN / IDENTIFICATION -->
+      <section id="login-section" aria-labelledby="login-heading">
+        <div class="card">
+          <h2 id="login-heading" style="margin-bottom: 1rem;">Ambassador Portal</h2>
+          <form id="login-form">
+            <label for="student-name">Enter Full Name:</label>
+            <input type="text" id="student-name" required placeholder="e.g. Charlotte Holzapfel" />
+            <button type="submit">Access Dashboard</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- STEP 2: DASHBOARD -->
+      <section id="dashboard-section" class="hidden" aria-labelledby="welcome-msg">
+        <div class="card welcome-card">
+          <h2 id="welcome-msg">Hi, <span id="display-name">Ambassador</span>!</h2>
+          <p>Welcome back to your point tracker.</p>
+        </div>
+
+        <div class="card" aria-labelledby="points-heading">
+          <h3 id="points-heading">Point Progress</h3>
+          <p style="font-size: 0.9rem; margin-top: 0.25rem;">
+            Program: <strong id="display-program">--</strong>
+          </p>
+          
+          <div class="progress-bar-container" role="progressbar" id="progress-bar-element" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="progress-bar-fill" id="progress-fill"></div>
+          </div>
+          
+          <p style="text-align: right; font-weight: bold; font-size: 1.1rem;">
+            <span id="pts-achieved">0</span> / <span id="pts-needed">0</span> Points
+          </p>
+        </div>
+
+        <!-- SUBMISSION FORM -->
+        <div class="card">
+          <h3>Submit New Activity</h3>
+          <form id="submission-form" style="margin-top: 1rem;">
+            <label for="user-email">UGA Email:</label>
+            <input type="email" id="user-email" required placeholder="username@uga.edu" />
+
+            <label for="activity-select">Activity Type:</label>
+            <select id="activity-select" required>
+              <option value="">-- Select Activity --</option>
+              <option value="Social Media Post">Social Media Post (10 pts)</option>
+              <option value="Tabling Event">Tabling Event (20 pts)</option>
+              <option value="Presentation">Presentation (30 pts)</option>
+              <option value="Blog/Article">Blog/Article (15 pts)</option>
+            </select>
+
+            <label for="file-upload">Upload Proof / Content (Optional):</label>
+            <input type="file" id="file-upload" accept="image/*,application/pdf" />
+
+            <button type="submit" id="submit-btn">Submit Content</button>
+          </form>
+          <div id="form-feedback" class="status-msg hidden" aria-live="polite"></div>
+        </div>
+
+        <!-- HISTORY -->
+        <div class="card">
+          <h3>Submission History</h3>
+          <ul id="history-list" class="sub-list">
+            <li><span>No submissions logged yet.</span></li>
+          </ul>
+          <button id="logout-btn" style="margin-top: 1.5rem; background-color: #555555;">Switch Account</button>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    // REPLACE WITH YOUR DEPLOYED APPS SCRIPT WEB APP URL
+    const SCRIPT_URL = "YOUR_EXACT_DEPLOYED_APPS_SCRIPT_URL_HERE";
+
+    const loginSection = document.getElementById('login-section');
+    const dashboardSection = document.getElementById('dashboard-section');
+    const loginForm = document.getElementById('login-form');
+    const submissionForm = document.getElementById('submission-form');
+    const feedback = document.getElementById('form-feedback');
+
+    // Check Local Storage on startup
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedName = localStorage.getItem('oge_ambassador_name');
+      if (savedName) {
+        loadDashboard(savedName);
+      }
+    });
+
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('student-name').value.trim();
+      if (name) {
+        localStorage.setItem('oge_ambassador_name', name);
+        loadDashboard(name);
+      }
+    });
+
+    document.getElementById('logout-btn').addEventListener('click', () => {
+      localStorage.removeItem('oge_ambassador_name');
+      dashboardSection.classList.add('hidden');
+      loginSection.classList.remove('hidden');
+    });
+
+    async function loadDashboard(name) {
+      loginSection.classList.add('hidden');
+      dashboardSection.classList.remove('hidden');
+      document.getElementById('display-name').textContent = name;
+
+      try {
+        const res = await fetch(`${SCRIPT_URL}?name=${encodeURIComponent(name)}`);
+        const data = await res.json();
+
+        if (data.status === 'success') {
+          document.getElementById('display-program').textContent = data.program;
+          document.getElementById('pts-achieved').textContent = data.pointsAchieved;
+          document.getElementById('pts-needed').textContent = data.pointsNeeded;
+
+          // Update Progress Bar
+          const pct = Math.min(100, Math.round((data.pointsAchieved / data.pointsNeeded) * 100));
+          const fill = document.getElementById('progress-fill');
+          fill.style.width = `${pct}%`;
+          
+          const bar = document.getElementById('progress-bar-element');
+          bar.setAttribute('aria-valuenow', pct);
+
+          // Build History List
+          const historyList = document.getElementById('history-list');
+          historyList.innerHTML = '';
+          if (data.history.length === 0) {
+            historyList.innerHTML = '<li><span>No submissions found.</span></li>';
+          } else {
+            data.history.forEach(item => {
+              const li = document.createElement('li');
+              li.innerHTML = `<span>${item.activity}</span><strong>+${item.points} pts</strong>`;
+              historyList.appendChild(li);
+            });
+          }
+        } else {
+          alert('Ambassador record not found. Please verify the exact name recorded in the master spreadsheet.');
+          document.getElementById('logout-btn').click();
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    submissionForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submitBtn = document.getElementById('submit-btn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Uploading...';
+
+      feedback.classList.add('hidden');
+
+      const name = localStorage.getItem('oge_ambassador_name');
+      const email = document.getElementById('user-email').value;
+      const activity = document.getElementById('activity-select').value;
+      const fileInput = document.getElementById('file-upload');
+
+      let fileData = null;
+      let fileName = null;
+      let fileMime = null;
+
+      if (fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        fileName = file.name;
+        fileMime = file.type;
+        fileData = await convertBase64(file);
+      }
+
+      const payload = { name, email, activity, fileData, fileName, fileMime };
+
+      try {
+        await fetch(SCRIPT_URL, {
+          method: 'POST',
+          body: JSON.stringify(payload)
+        });
+
+        feedback.textContent = 'Submission successful!';
+        feedback.className = 'status-msg success';
+        feedback.classList.remove('hidden');
+        submissionForm.reset();
+        
+        // Refresh dashboard statistics
+        loadDashboard(name);
+      } catch (err) {
+        feedback.textContent = 'Submission failed. Please try again.';
+        feedback.className = 'status-msg error';
+        feedback.classList.remove('hidden');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Content';
+      }
+    });
+
+    function convertBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+      });
+    }
+  </script>
+</body>
+</html>
