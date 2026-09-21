@@ -6,55 +6,51 @@
   <title>OGE Ambassador Program | University of Georgia</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --uga-red: #BA0C2F;
+      --uga-red: #A6192E;
       --uga-black: #000000;
-      --uga-dark-black: #0D0D0D;
-      --art-deco-gold: #C5A059;
-      --art-deco-light-gold: #E5C17C;
-      --uga-yellow: #FFE500;
+      --panel-black: #101010;
       --uga-white: #FFFFFF;
-      --panel-border: 1px solid var(--art-deco-gold);
+      --pill-gray: #8E9187;
+      --pill-gray-dark: #71746B;
+      --upload-pink: #D99AA6;
+      --uga-yellow: #F5EC7E;
+      --gauge-track: #C8C8C8;
+      --text-muted: #555;
     }
 
-    /* ZERO ROUNDED EDGES & ZERO SCROLLING */
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      border-radius: 0 !important; /* Strictly no rounded corners */
     }
 
     html, body {
-      width: 100vw;
-      height: 100vh;
-      overflow: hidden; /* Prevents desktop scrolling */
-      background-color: var(--uga-dark-black);
+      width: 100%;
+      min-height: 100vh;
+      background-color: var(--uga-black);
       font-family: 'Montserrat', sans-serif;
       color: var(--uga-white);
     }
 
-    /* FULL DESKTOP LAYOUT WRAPPER */
-    .viewport-container {
-      width: 100vw;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      background: linear-gradient(135deg, #000000 0%, #1A0306 100%);
-      border: 6px solid var(--art-deco-gold);
+    button, input, select {
+      font-family: inherit;
     }
 
-    /* ART DECO BRAND HEADER BANNER */
-    .brand-header {
-      background-color: var(--uga-black);
-      border-bottom: 2px solid var(--art-deco-gold);
-      padding: 0.8rem 2rem;
+    .viewport-container {
+      width: 100vw;
+      min-height: 100vh;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 10;
+      flex-direction: column;
+      background-color: var(--uga-black);
+    }
+
+    /* ===== HEADER: red strip + black "AMBASSADOR PROGRAM" bar ===== */
+    .brand-header {
+      background-color: var(--uga-red);
+      padding: 0.65rem 1.5rem 0;
     }
 
     .brand-header .title-group {
@@ -64,154 +60,144 @@
 
     .brand-header .sub-title {
       font-family: 'Cinzel', serif;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       letter-spacing: 3px;
-      color: var(--art-deco-gold);
+      color: var(--uga-black);
       text-transform: uppercase;
+      margin-bottom: 0.6rem;
     }
 
     .brand-header h1 {
-      font-family: 'Cinzel', serif;
-      font-size: 1.35rem;
-      font-weight: 900;
-      letter-spacing: 2.5px;
-      color: var(--uga-white);
+      display: none; /* replaced visually by the black bar below */
+    }
+
+    #reset-account-btn {
+      display: none;
     }
 
     .deco-line {
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--art-deco-gold), transparent);
-      width: 100%;
+      display: none;
     }
 
-    /* MAIN VIEWPORT PANELS */
+    .ambassador-bar {
+      background-color: var(--uga-black);
+      padding: 0.85rem 1.5rem;
+      font-family: 'Cinzel', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: var(--uga-white);
+      text-transform: uppercase;
+    }
+
+    /* ===== MAIN ===== */
     main {
       flex: 1;
-      position: relative;
       width: 100%;
-      height: calc(100vh - 65px);
     }
 
     .screen-view {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
       width: 100%;
-      height: 100%;
+      min-height: calc(100vh - 90px);
       display: flex;
-      padding: 2rem;
-      gap: 2rem;
+      padding: 1.25rem;
+      gap: 1.25rem;
     }
 
     .hidden { display: none !important; }
 
-    /* SCREEN 1: ONBOARDING / LOGIN */
+    /* ===== SCREEN 1: ONBOARDING ===== */
     .onboarding-frame {
       width: 100%;
-      max-width: 520px;
+      max-width: 480px;
       margin: auto;
-      background-color: var(--uga-black);
-      border: var(--panel-border);
-      padding: 2.5rem;
-      box-shadow: 0 0 35px rgba(197, 160, 89, 0.15);
+      background-color: var(--panel-black);
+      border: 1px solid #333;
+      padding: 2.25rem;
     }
 
     .art-deco-title {
       font-family: 'Cinzel', serif;
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       font-weight: 800;
-      color: var(--art-deco-gold);
-      letter-spacing: 2px;
+      color: var(--uga-white);
+      letter-spacing: 1.5px;
       margin-bottom: 0.5rem;
       text-transform: uppercase;
     }
 
-    .form-group {
-      margin-bottom: 1.25rem;
-    }
+    .form-group { margin-bottom: 1.1rem; }
 
     label {
       display: block;
       font-family: 'Cinzel', serif;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       letter-spacing: 1.5px;
-      color: var(--art-deco-light-gold);
+      color: var(--uga-white);
       margin-bottom: 0.4rem;
       text-transform: uppercase;
     }
 
     input, select {
       width: 100%;
-      padding: 0.85rem 1rem;
-      background-color: #141414;
-      border: 1px solid #333;
+      padding: 0.8rem 1rem;
+      background-color: #1c1c1c;
+      border: 1px solid #3a3a3a;
       color: var(--uga-white);
-      font-family: 'Montserrat', sans-serif;
-      font-size: 0.95rem;
-      transition: border-color 0.2s;
+      font-size: 0.9rem;
     }
 
     input:focus, select:focus {
       outline: none;
-      border-color: var(--art-deco-gold);
+      border-color: var(--uga-red);
     }
 
     .deco-btn {
       width: 100%;
-      padding: 1rem;
+      padding: 0.9rem;
       background: var(--uga-red);
       color: var(--uga-white);
-      border: 1px solid var(--art-deco-gold);
+      border: none;
+      border-radius: 999px;
       font-family: 'Cinzel', serif;
-      font-size: 0.9rem;
-      font-weight: 800;
+      font-size: 0.85rem;
+      font-weight: 700;
       letter-spacing: 2px;
       text-transform: uppercase;
       cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .deco-btn:hover {
-      background: #900822;
-      border-color: var(--uga-white);
     }
 
     .deco-btn.outline {
       background: transparent;
-      color: var(--art-deco-gold);
-      border: 1px solid var(--art-deco-gold);
+      color: var(--uga-white);
+      border: 1px solid var(--uga-white);
     }
 
-    .deco-btn.outline:hover {
-      background: var(--art-deco-gold);
-      color: var(--uga-black);
-    }
-
-    /* SCREEN 2: MAIN DASHBOARD */
+    /* ===== SCREEN 2: DASHBOARD ===== */
     .dashboard-layout {
       display: grid;
-      grid-template-columns: 1.3fr 1fr;
+      grid-template-columns: 1.35fr 1fr;
       width: 100%;
-      height: 100%;
-      gap: 2rem;
+      gap: 0;
     }
 
-    /* LEFT PANEL: RED CANVAS WITH ACTION BUTTONS */
+    /* LEFT: RED PANEL */
     .dash-left {
       background-color: var(--uga-red);
-      border: var(--panel-border);
-      padding: 3rem;
+      padding: 2.5rem 2.25rem;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: flex-start;
+      gap: 2rem;
     }
 
     .greeting-text {
       font-family: 'Cinzel', serif;
-      font-size: 2.8rem;
-      font-weight: 800;
+      font-size: 2.6rem;
+      font-weight: 700;
       line-height: 1.15;
-      color: var(--uga-white);
-      letter-spacing: 1px;
+      color: var(--uga-black);
+      letter-spacing: 0.5px;
     }
 
     .action-stack {
@@ -219,90 +205,118 @@
       flex-direction: column;
       gap: 1rem;
       width: 100%;
-      max-width: 400px;
+      max-width: 380px;
     }
 
+    /* rounded pink "Upload your content" pill with square icon chip */
     .action-pill {
-      background-color: rgba(255, 255, 255, 0.9);
-      color: var(--uga-black);
-      padding: 1.1rem 1.5rem;
+      background-color: var(--pill-gray);
+      color: var(--uga-white);
+      padding: 1rem 1.75rem;
       font-family: 'Cinzel', serif;
-      font-weight: 800;
-      font-size: 0.85rem;
-      letter-spacing: 2px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 1.5px;
       text-transform: uppercase;
       text-align: center;
-      border: 1px solid var(--uga-black);
+      border: none;
+      border-radius: 999px;
       cursor: pointer;
-      transition: all 0.2s;
     }
 
-    .action-pill:hover {
-      background-color: var(--uga-black);
-      color: var(--art-deco-gold);
-      border-color: var(--art-deco-gold);
+    #btn-goto-upload {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background-color: var(--upload-pink);
+      color: var(--uga-black);
+      text-align: left;
+      padding: 0.6rem 0.6rem 0.6rem 0.6rem;
+      max-width: 320px;
     }
 
-    /* RIGHT PANEL: BLACK CARD WITH CIRCULAR BADGE & THERMOMETER */
+    #btn-goto-upload::before {
+      content: "\2191";
+      flex: 0 0 56px;
+      height: 56px;
+      background-color: var(--uga-white);
+      color: var(--uga-black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      border-radius: 14px;
+    }
+
+    /* points strip under the greeting on the red panel (mobile-style summary) */
+    .points-inline {
+      display: none;
+    }
+
+    /* ===== RIGHT: BLACK GAUGE PANEL ===== */
     .dash-right {
-      background-color: var(--uga-black);
-      border: var(--panel-border);
-      padding: 3rem 2rem;
+      background-color: var(--panel-black);
+      padding: 2.5rem 2rem;
       display: flex;
       flex-direction: column;
+      gap: 1.5rem;
     }
 
     .dash-right h2 {
       font-family: 'Cinzel', serif;
       font-size: 1.5rem;
-      letter-spacing: 3px;
-      color: var(--art-deco-gold);
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--uga-white);
+      text-transform: uppercase;
     }
 
     .gauge-display-container {
       flex: 1;
       display: flex;
       align-items: center;
-      justify-content: space-around;
+      justify-content: space-evenly;
+      gap: 1.5rem;
     }
 
     .circle-badge {
       width: 130px;
       height: 130px;
-      border: 2px solid var(--art-deco-gold);
-      background-color: #111;
+      border-radius: 50%;
+      border: none;
+      background-color: var(--pill-gray-dark);
       display: flex;
       align-items: center;
       justify-content: center;
       font-family: 'Cinzel', serif;
-      font-size: 3.2rem;
-      font-weight: 900;
+      font-size: 3rem;
+      font-weight: 700;
       color: var(--uga-white);
-      box-shadow: 0 0 20px rgba(197, 160, 89, 0.2);
+      flex-shrink: 0;
     }
 
     .gauge-column {
       display: flex;
       gap: 1rem;
-      align-items: center;
+      align-items: stretch;
     }
 
     .gauge-ticks {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      height: 240px;
+      padding: 0.5rem 0;
       font-family: 'Cinzel', serif;
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: var(--art-deco-gold);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--uga-white);
+      text-align: right;
     }
 
     .gauge-frame {
-      width: 55px;
-      height: 240px;
-      background-color: #141414;
-      border: 1px solid var(--art-deco-gold);
+      width: 34px;
+      background-color: var(--gauge-track);
+      border: none;
       display: flex;
       flex-direction: column-reverse;
       overflow: hidden;
@@ -311,51 +325,125 @@
     .gauge-fill {
       background-color: var(--uga-yellow);
       width: 100%;
-      height: 0%; /* Dynamic fill based on points */
+      height: 0%;
       transition: height 0.8s ease-in-out;
     }
 
-    /* SCREEN 3: UPLOAD PANEL SCREEN */
+    .points-needed-note {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.8rem;
+      color: #ccc;
+      text-align: center;
+    }
+
+    /* ===== SCREEN 3: UPLOAD / SUBMISSIONS ===== */
     .upload-screen-panel {
       width: 100%;
       max-width: 700px;
       margin: auto;
-      background-color: var(--uga-black);
-      border: var(--panel-border);
-      padding: 2.5rem;
+      background-color: var(--panel-black);
+      border: 1px solid #2a2a2a;
+      padding: 2.25rem;
     }
 
     .sub-history-list {
       list-style: none;
-      max-height: 150px;
+      max-height: 200px;
       overflow-y: auto;
-      border: 1px solid #222;
+      border: 1px solid #2a2a2a;
       padding: 0.5rem;
       margin-top: 0.5rem;
     }
 
     .sub-history-list li {
-      padding: 0.5rem;
+      padding: 0.6rem 0.4rem;
       border-bottom: 1px solid #222;
       display: flex;
       justify-content: space-between;
       font-size: 0.85rem;
+    }
+
+    /* ================= MOBILE (stacked red card, like the phone mockups) ================= */
+    @media (max-width: 720px) {
+      .brand-header { padding: 0.6rem 1.25rem 0; }
+      .ambassador-bar { font-size: 1.15rem; padding: 0.7rem 1.25rem; }
+
+      .screen-view { padding: 0; }
+
+      .dashboard-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .dash-left {
+        padding: 1.75rem 1.5rem;
+        gap: 1.5rem;
+      }
+
+      .greeting-text { font-size: 2rem; }
+
+      #btn-goto-upload { max-width: 100%; }
+
+      /* on mobile the yellow points bar + label sit inline under the upload
+         button inside the red card, matching the phone screenshots */
+      .points-inline {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        max-width: 320px;
+      }
+
+      .points-inline .points-label {
+        font-family: 'Cinzel', serif;
+        font-weight: 700;
+        font-size: 1rem;
+        color: var(--uga-black);
+        letter-spacing: 1px;
+      }
+
+      .points-inline .points-track {
+        width: 100%;
+        height: 10px;
+        background-color: var(--gauge-track);
+      }
+
+      .points-inline .points-track-fill {
+        height: 100%;
+        background-color: var(--uga-yellow);
+      }
+
+      .points-inline .points-note {
+        font-size: 0.7rem;
+        color: #3a0008;
+        text-align: center;
+      }
+
+      /* hide the desktop gauge panel's own heading redundancy on mobile stack */
+      .dash-right {
+        padding: 1.75rem 1.5rem;
+      }
+
+      .action-stack { max-width: 100%; }
+      .action-pill { text-align: center; }
+
+      .onboarding-frame, .upload-screen-panel {
+        margin: 1rem;
+        padding: 1.75rem;
+      }
     }
   </style>
 </head>
 <body>
 
   <div class="viewport-container">
-    
+
     <!-- BRAND HEADER -->
     <header class="brand-header">
       <div class="title-group">
-        <span class="sub-title">Office of Global Engagement</span>
-        <h1>Ambassador Program</h1>
+        <span class="sub-title">UGA Office of Global Engagement</span>
       </div>
       <button id="reset-account-btn" class="deco-btn outline" style="width: auto; padding: 0.4rem 1rem; font-size: 0.7rem;">Switch Account</button>
     </header>
-    <div class="deco-line"></div>
+    <div class="ambassador-bar">Ambassador Program</div>
 
     <main>
 
@@ -394,7 +482,7 @@
       <!-- SCREEN 2: MAIN DASHBOARD -->
       <section id="screen-dashboard" class="screen-view hidden">
         <div class="dashboard-layout">
-          
+
           <!-- LEFT CANVAS -->
           <div class="dash-left">
             <div>
@@ -402,16 +490,25 @@
             </div>
 
             <div class="action-stack">
-              <div class="action-pill" id="btn-goto-upload">Upload Your Content</div>
+              <div class="action-pill" id="btn-goto-upload">Upload your content</div>
+
+              <!-- mobile-only inline points readout -->
+              <div class="points-inline">
+                <span class="points-label">Points: <span id="dash-pts-val-mobile">0</span></span>
+                <div class="points-track"><div class="points-track-fill" id="dash-points-track-fill" style="width:0%;"></div></div>
+                <span class="points-note">Points Needed: <span id="dash-pts-needed-mobile">100</span></span>
+              </div>
+
+              <div class="action-pill" id="btn-goto-activities">List of Activities</div>
               <div class="action-pill" id="btn-view-submissions">My Submissions</div>
             </div>
           </div>
 
           <!-- RIGHT CANVAS: POINTS GAUGE -->
           <div class="dash-right">
-            <h2>POINTS:</h2>
+            <h2>Points:</h2>
             <div class="gauge-display-container">
-              
+
               <div class="circle-badge" id="dash-pts-val">0</div>
 
               <div class="gauge-column">
@@ -426,6 +523,7 @@
               </div>
 
             </div>
+            <p class="points-needed-note">Points Needed: <span id="dash-pts-needed">100</span></p>
           </div>
 
         </div>
@@ -476,20 +574,18 @@
     // DEPLOYED APPS SCRIPT WEB APP URL
     const SCRIPT_URL = "YOUR_EXACT_DEPLOYED_APPS_SCRIPT_URL_HERE";
 
-    // SCREEN ELEMENTS
     const screenOnboarding = document.getElementById('screen-onboarding');
     const screenDashboard = document.getElementById('screen-dashboard');
     const screenUpload = document.getElementById('screen-upload');
 
-    // FORMS & BUTTONS
     const onboardingForm = document.getElementById('onboarding-form');
     const uploadForm = document.getElementById('upload-form');
     const btnGotoUpload = document.getElementById('btn-goto-upload');
+    const btnGotoActivities = document.getElementById('btn-goto-activities');
     const btnViewSubmissions = document.getElementById('btn-view-submissions');
     const btnBackDash = document.getElementById('btn-back-dash');
     const resetAccountBtn = document.getElementById('reset-account-btn');
 
-    // INITIALIZATION CHECK
     document.addEventListener('DOMContentLoaded', () => {
       const savedName = localStorage.getItem('oge_user_name');
       const savedEmail = localStorage.getItem('oge_user_email');
@@ -500,16 +596,13 @@
       }
     });
 
-    // SCREEN NAVIGATION SWITCHER
     function switchScreen(activeScreen) {
       screenOnboarding.classList.add('hidden');
       screenDashboard.classList.add('hidden');
       screenUpload.classList.add('hidden');
-
       activeScreen.classList.remove('hidden');
     }
 
-    // ONBOARDING SUBMIT
     onboardingForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const name = document.getElementById('input-name').value.trim();
@@ -520,12 +613,10 @@
         localStorage.setItem('oge_user_name', name);
         localStorage.setItem('oge_user_email', email);
         localStorage.setItem('oge_user_program', program);
-
         showDashboard(name, email, program);
       }
     });
 
-    // SHOW DASHBOARD & FETCH DATA
     async function showDashboard(fullName, email, program) {
       switchScreen(screenDashboard);
 
@@ -538,11 +629,14 @@
 
         if (data.status === 'success') {
           document.getElementById('dash-pts-val').textContent = data.pointsAchieved;
+          document.getElementById('dash-pts-val-mobile').textContent = data.pointsAchieved;
+          document.getElementById('dash-pts-needed').textContent = data.pointsNeeded;
+          document.getElementById('dash-pts-needed-mobile').textContent = data.pointsNeeded;
 
           const pct = Math.min(100, Math.round((data.pointsAchieved / data.pointsNeeded) * 100));
           document.getElementById('dash-gauge-fill').style.height = `${pct}%`;
+          document.getElementById('dash-points-track-fill').style.width = `${pct}%`;
 
-          // Populate History List
           const historyList = document.getElementById('history-list');
           historyList.innerHTML = '';
           if (data.history.length === 0) {
@@ -560,8 +654,8 @@
       }
     }
 
-    // BUTTON NAVIGATION LISTENERS
     btnGotoUpload.addEventListener('click', () => switchScreen(screenUpload));
+    btnGotoActivities.addEventListener('click', () => switchScreen(screenUpload));
     btnViewSubmissions.addEventListener('click', () => switchScreen(screenUpload));
     btnBackDash.addEventListener('click', () => switchScreen(screenDashboard));
 
@@ -570,7 +664,6 @@
       switchScreen(screenOnboarding);
     });
 
-    // UPLOAD CONTENT SUBMIT
     uploadForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const submitBtn = document.getElementById('submit-upload-btn');
