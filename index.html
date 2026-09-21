@@ -363,6 +363,40 @@
       font-size: 0.85rem;
     }
 
+    /* ===== SCREEN 4: ADMIN VIEW ===== */
+    .admin-panel {
+      width: 100%;
+      max-width: 900px;
+      margin: auto;
+      background-color: var(--panel-black);
+      border: 1px solid #2a2a2a;
+      padding: 2.25rem;
+    }
+
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      font-size: 0.85rem;
+    }
+
+    .admin-table th, .admin-table td {
+      text-align: left;
+      padding: 0.55rem 0.6rem;
+      border-bottom: 1px solid #2a2a2a;
+    }
+
+    .admin-table th {
+      font-family: 'Cinzel', serif;
+      letter-spacing: 1px;
+      color: var(--uga-red);
+      text-transform: uppercase;
+      font-size: 0.7rem;
+    }
+
+    .admin-table tbody { display: block; max-height: 55vh; overflow-y: auto; }
+    .admin-table thead, .admin-table tbody tr { display: table; width: 100%; table-layout: fixed; }
+
     /* ================= MOBILE (stacked red card, like the phone mockups) ================= */
     @media (max-width: 720px) {
       .brand-header { padding: 0.6rem 1.25rem 0; }
@@ -567,16 +601,43 @@
         </div>
       </section>
 
+      <!-- SCREEN 4: ADMIN VIEW (only reachable via ?admin=1 in the URL) -->
+      <section id="screen-admin" class="screen-view hidden">
+        <div class="admin-panel">
+          <h2 class="art-deco-title">Admin: All Submissions</h2>
+          <p style="font-size: 0.85rem; color: #AAA; margin-bottom: 1rem;">Live pull from Master_sheet. Enter the admin key to load.</p>
+          <div class="form-group" style="display:flex; gap: 0.75rem; align-items:flex-end;">
+            <div style="flex:1;">
+              <label for="admin-key-input">Admin Key</label>
+              <input type="password" id="admin-key-input" placeholder="Admin key" />
+            </div>
+            <button id="admin-load-btn" class="deco-btn" style="width:auto; padding: 0.8rem 1.5rem;">Load</button>
+          </div>
+          <div id="admin-status" style="font-size:0.8rem; color:#aaa; margin-top:0.5rem;"></div>
+          <table class="admin-table">
+            <thead>
+              <tr><th>Date</th><th>Name</th><th>Activity</th><th>Email</th><th>Points</th><th>Proof</th></tr>
+            </thead>
+            <tbody id="admin-rows"></tbody>
+          </table>
+        </div>
+      </section>
+
     </main>
   </div>
 
   <script>
-    // DEPLOYED APPS SCRIPT WEB APP URL
+    // DEPLOYED APPS SCRIPT WEB APP URL (paste the /exec URL from your deployment)
     const SCRIPT_URL = "YOUR_EXACT_DEPLOYED_APPS_SCRIPT_URL_HERE";
+
+    // How often to re-poll the sheet for live point updates (ms)
+    const POLL_INTERVAL = 30000;
+    let pollTimer = null;
 
     const screenOnboarding = document.getElementById('screen-onboarding');
     const screenDashboard = document.getElementById('screen-dashboard');
     const screenUpload = document.getElementById('screen-upload');
+    const screenAdmin = document.getElementById('screen-admin');
 
     const onboardingForm = document.getElementById('onboarding-form');
     const uploadForm = document.getElementById('upload-form');
@@ -585,8 +646,16 @@
     const btnViewSubmissions = document.getElementById('btn-view-submissions');
     const btnBackDash = document.getElementById('btn-back-dash');
     const resetAccountBtn = document.getElementById('reset-account-btn');
+    const adminLoadBtn = document.getElementById('admin-load-btn');
 
     document.addEventListener('DOMContentLoaded', () => {
+      // Visit the page with ?admin=1 to reach the admin submissions view
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('admin') === '1') {
+        switchScreen(screenAdmin);
+        return;
+      }
+
       const savedName = localStorage.getItem('oge_user_name');
       const savedEmail = localStorage.getItem('oge_user_email');
       const savedProg = localStorage.getItem('oge_user_program');
@@ -600,7 +669,30 @@
       screenOnboarding.classList.add('hidden');
       screenDashboard.classList.add('hidden');
       screenUpload.classList.add('hidden');
+      screenAdmin.classList.add('hidden');
       activeScreen.classList.remove('hidden');
+
+      // Only poll for live updates while the dashboard is actually visible
+      if (activeScreen === screenDashboard) {
+        startPolling();
+      } else {
+        stopPolling();
+      }
+    }
+
+    function startPolling() {
+      stopPolling();
+      pollTimer = setInterval(() => {
+        const name = localStorage.getItem('oge_user_name');
+        const email = localStorage.getItem('oge_user_email');
+        const program = localStorage.getItem('oge_user_program');
+        if (name) refreshPoints(name, email, program);
+      }, POLL_INTERVAL);
+    }
+
+    function stopPolling() {
+      if (pollTimer) clearInterval(pollTimer);
+      pollTimer = null;
     }
 
     onboardingForm.addEventListener('submit', (e) => {
@@ -619,10 +711,15 @@
 
     async function showDashboard(fullName, email, program) {
       switchScreen(screenDashboard);
-
       const firstName = fullName.split(' ')[0];
       document.getElementById('dash-first-name').textContent = firstName;
+      await refreshPoints(fullName, email, program);
+    }
 
+    // Pulls the latest totals from the sheet and updates the on-screen
+    // gauge/history without switching screens — used for the initial load,
+    // the periodic poll, and right after a new submission.
+    async function refreshPoints(fullName, email, program) {
       try {
         const res = await fetch(`${SCRIPT_URL}?name=${encodeURIComponent(fullName)}&program=${encodeURIComponent(program)}`);
         const data = await res.json();
@@ -637,22 +734,71 @@
           document.getElementById('dash-gauge-fill').style.height = `${pct}%`;
           document.getElementById('dash-points-track-fill').style.width = `${pct}%`;
 
-          const historyList = document.getElementById('history-list');
-          historyList.innerHTML = '';
-          if (data.history.length === 0) {
-            historyList.innerHTML = '<li><span>No submissions recorded.</span></li>';
-          } else {
-            data.history.forEach(item => {
-              const li = document.createElement('li');
-              li.innerHTML = `<span>${item.activity}</span><strong>+${item.points} pts</strong>`;
-              historyList.appendChild(li);
-            });
-          }
+          renderHistory(data.history);
+        } else {
+          console.warn('refreshPoints error:', data.message);
         }
       } catch (err) {
         console.error(err);
       }
     }
+
+    function renderHistory(history) {
+      const historyList = document.getElementById('history-list');
+      historyList.innerHTML = '';
+      if (!history || history.length === 0) {
+        historyList.innerHTML = '<li><span>No submissions recorded.</span></li>';
+      } else {
+        history.forEach(item => {
+          const li = document.createElement('li');
+          li.innerHTML = `<span>${item.activity}</span><strong>+${item.points} pts</strong>`;
+          historyList.appendChild(li);
+        });
+      }
+    }
+
+    // ---- Admin view: pulls every submission from Master_sheet ----
+    adminLoadBtn.addEventListener('click', async () => {
+      const key = document.getElementById('admin-key-input').value.trim();
+      const statusEl = document.getElementById('admin-status');
+      const rowsEl = document.getElementById('admin-rows');
+
+      if (!key) {
+        statusEl.textContent = 'Enter the admin key.';
+        return;
+      }
+
+      statusEl.textContent = 'Loading...';
+      try {
+        const res = await fetch(`${SCRIPT_URL}?admin=1&key=${encodeURIComponent(key)}`);
+        const data = await res.json();
+
+        if (data.status !== 'success') {
+          statusEl.textContent = data.message || 'Invalid key.';
+          rowsEl.innerHTML = '';
+          return;
+        }
+
+        statusEl.textContent = `${data.submissions.length} submissions loaded.`;
+        rowsEl.innerHTML = '';
+        data.submissions.forEach(row => {
+          const tr = document.createElement('tr');
+          const dateStr = row.date ? new Date(row.date).toLocaleDateString() : '';
+          tr.innerHTML = `
+            <td>${dateStr}</td>
+            <td>${row.name || ''}</td>
+            <td>${row.activity || ''}</td>
+            <td>${row.email || ''}</td>
+            <td>${row.points}</td>
+            <td>${row.fileUrl ? `<a href="${row.fileUrl}" target="_blank" style="color:#F5EC7E;">View</a>` : '—'}</td>
+          `;
+          rowsEl.appendChild(tr);
+        });
+      } catch (err) {
+        statusEl.textContent = 'Error loading submissions.';
+        console.error(err);
+      }
+    });
 
     btnGotoUpload.addEventListener('click', () => switchScreen(screenUpload));
     btnGotoActivities.addEventListener('click', () => switchScreen(screenUpload));
@@ -687,16 +833,26 @@
       const payload = { name, email, activity, fileData, fileName, fileMime };
 
       try {
-        await fetch(SCRIPT_URL, {
+        const res = await fetch(SCRIPT_URL, {
           method: 'POST',
           body: JSON.stringify(payload)
         });
+        const result = await res.json();
+
+        if (result.status !== 'success') {
+          throw new Error(result.message || 'Unknown error');
+        }
 
         uploadForm.reset();
-        await showDashboard(name, email, program);
         switchScreen(screenDashboard);
+        document.getElementById('dash-pts-val').textContent = result.pointsAchieved;
+        document.getElementById('dash-pts-val-mobile').textContent = result.pointsAchieved;
+        renderHistory(result.history);
+        // one more full refresh to pick up an updated pointsNeeded/gauge %
+        await refreshPoints(name, email, program);
       } catch (err) {
         alert('Submission error. Please try again.');
+        console.error(err);
       } finally {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Submit Content';
