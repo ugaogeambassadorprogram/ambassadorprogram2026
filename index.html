@@ -55,7 +55,7 @@
     font-size: clamp(1.5rem, 3.2vw, 2.6rem); padding: .6rem 1rem; }
   .hero-row { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
     margin-top: 2.5rem; flex-wrap: wrap; }
-  .greeting { font-size: clamp(3rem, 11vh, 6.5rem); font-weight: 900; line-height: .95;
+  .greeting { font-size: clamp(3rem, 8vw, 5rem); font-weight: 900; line-height: .95;
     color: var(--black); letter-spacing: -1px; }
   .upload-btn { display: flex; align-items: center; gap: 1rem; background: var(--pink); color: var(--black);
     border: none; border-radius: 22px; padding: 1rem 1.5rem 1rem 1rem; cursor: pointer; text-align: left;
@@ -138,7 +138,7 @@
     .org { font-size: clamp(.8rem, 1.9vh, 1.05rem); margin-bottom: .5vh; }
     .banner { font-size: clamp(1.2rem, 4.2vh, 2.6rem); padding: .5vh 1rem; }
     .hero-row { margin: auto 0; padding: 2vh 0; }
-    .greeting { font-size: clamp(2rem, 7.5vh, 4rem); }
+    .greeting { font-size: clamp(3rem, 12vh, 7rem); }
     .upload-icon { width: clamp(40px, 6vh, 52px); height: clamp(40px, 6vh, 52px); }
     .upload-title { font-size: clamp(1.1rem, 2.8vh, 1.5rem); }
     .earn { flex: 0 0 auto; padding: 1.5vh 2rem 1.8vh; }
@@ -322,8 +322,8 @@
 </section>
 
 <script>
-
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby869wai6a88L7yWuvXHEo5SzGpVJgQaXchCk2uIx_smVBM1zqSA9YGxlmr5lmFd6ko7Q/exec";
+  // Paste your deployed Apps Script /exec URL here.
+  const SCRIPT_URL = "YOUR_EXACT_DEPLOYED_APPS_SCRIPT_URL_HERE";
   const POLL_MS = 30000;
   const MAX_FILE_MB = 8; // Apps Script request limit makes very large files unreliable
 
