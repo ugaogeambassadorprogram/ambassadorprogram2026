@@ -47,7 +47,7 @@
   .btn.outline { background: transparent; color: var(--white); border: 1px solid #777; }
 
   /* ---------- Dashboard ---------- */
-  #screen-dashboard { display: grid; grid-template-columns: 1.6fr 1fr; min-height: 100vh; }
+  #screen-dashboard { display: grid; grid-template-columns: 4fr 1fr; min-height: 100vh; }
   .left { display: flex; flex-direction: column; min-width: 0; }
   .hero { background: var(--red); padding: 1.25rem 2rem 2.5rem; flex: 0 0 auto; }
   .org { text-align: center; color: var(--black); text-transform: uppercase; font-size: 1.05rem; margin-bottom: .6rem; }
@@ -134,32 +134,37 @@
     html, body { height: 100%; overflow: hidden; }
     #screen-dashboard { height: 100vh; min-height: 0; overflow: hidden; }
     .left { min-height: 0; height: 100vh; }
-    .hero { padding: 1vh 2rem 2.5vh; }
+    .hero { flex: 1; display: flex; flex-direction: column; padding: 1vh 2rem 2.5vh; }
     .org { font-size: clamp(.8rem, 1.9vh, 1.05rem); margin-bottom: .5vh; }
     .banner { font-size: clamp(1.2rem, 4.2vh, 2.6rem); padding: .5vh 1rem; }
-    .hero-row { margin-top: 2.5vh; }
+    .hero-row { margin: auto 0; padding: 2vh 0; }
     .greeting { font-size: clamp(2rem, 7.5vh, 4rem); }
     .upload-icon { width: clamp(40px, 6vh, 52px); height: clamp(40px, 6vh, 52px); }
     .upload-title { font-size: clamp(1.1rem, 2.8vh, 1.5rem); }
-    .earn { min-height: 0; padding: 1.5vh 2rem; overflow: hidden; display: flex; flex-direction: column; }
+    .earn { flex: 0 0 auto; padding: 1.5vh 2rem 1.8vh; }
     .earn h3, .activity h3 { font-size: clamp(1.1rem, 2.8vh, 1.5rem); }
     .earn .intro { margin: .2vh 0 1vh; font-size: clamp(.7rem, 1.5vh, .8rem); }
-    .cards { flex: 1; min-height: 0; grid-auto-rows: 1fr; gap: .8vh .75rem; }
-    .act-card { min-height: 0; padding: .6rem .7rem; overflow: hidden; }
+    .cards { gap: .8vh .75rem; }
+    .act-card { min-height: 0; padding: .55rem .7rem; }
     .act-body span { font-size: clamp(.55rem, 1.25vh, .65rem); }
     .act-body b { font-size: clamp(.7rem, 1.5vh, .8rem); }
     .activity { padding-bottom: 1.2vh; }
     .activity-inner { padding-top: .8vh; }
     #history-list { max-height: 11vh; margin-top: .4vh; }
-    .right { height: 100vh; padding: 1.5vh 2rem; overflow: hidden; }
-    .right h2 { font-size: clamp(1.6rem, 4.5vh, 2.2rem); margin-bottom: 1vh; }
-    .badge { width: clamp(80px, 14vh, 130px); height: clamp(80px, 14vh, 130px); font-size: clamp(2rem, 5vh, 3rem); margin-bottom: .6vh; }
-    .needed { margin-bottom: 1.5vh; }
-    .gauge { height: clamp(110px, 25vh, 230px); margin-bottom: 1vh; }
+    .right { height: 100vh; padding: 2vh 1.1rem 1.5vh; overflow: hidden; justify-content: space-between; }
+    .right h2 { font-size: clamp(1.3rem, 3.6vh, 1.8rem); margin-bottom: 1vh; }
+    .badge { width: clamp(64px, 11vh, 100px); height: clamp(64px, 11vh, 100px); font-size: clamp(1.6rem, 4vh, 2.4rem); margin-bottom: .6vh; }
+    .needed { font-size: .8rem; margin-bottom: 1.5vh; }
+    .gauge { height: clamp(90px, 22vh, 190px); margin-bottom: 1vh; }
+    .ticks { width: 38px; font-size: .72rem; }
+    .progress-txt { font-size: .8rem; }
     .progress-txt em { margin-top: .5vh; }
-    .inspo { padding-top: 1vh; }
-    .inspo p { margin: .2vh 0 .8vh; }
-    .switch { margin-top: .6vh; }
+    .inspo { padding-top: 1vh; margin-top: 0; }
+    .inspo h4 { font-size: 1rem; }
+    .inspo p { font-size: .72rem; margin: .2vh 0 .8vh; }
+    #idea-box { font-size: .75rem; }
+    .right .btn { font-size: .78rem; padding: .65rem; }
+    .switch { margin-top: .6vh; font-size: .65rem; }
   }
 
   /* ---------- Mobile ---------- */
@@ -216,7 +221,7 @@
       <div class="hero-row">
         <h1 class="greeting">Hi, <span id="first-name">Ambassador</span>.<br>Welcome<br>back!</h1>
         <button class="upload-btn" id="open-upload" type="button">
-          <span class="upload-icon">&#8593;</span>
+          <span class="upload-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></span>
           <span>
             <div class="upload-title">Upload your content</div>
             <div class="upload-sub">Share your latest Ambassador content</div>
@@ -498,7 +503,7 @@
     const u = user();
     try {
       const payload = {
-        name: u.name, email: u.email, activity,
+        name: u.name, email: u.email, program: u.program, activity,
         description: $('upload-desc').value.trim(),
         fileData: await toBase64(file), fileName: file.name, fileMime: file.type
       };
