@@ -1,872 +1,505 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>OGE Ambassador Program | University of Georgia</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --uga-red: #A6192E;
-      --uga-black: #000000;
-      --panel-black: #101010;
-      --uga-white: #FFFFFF;
-      --pill-gray: #8E9187;
-      --pill-gray-dark: #71746B;
-      --upload-pink: #D99AA6;
-      --uga-yellow: #F5EC7E;
-      --gauge-track: #C8C8C8;
-      --text-muted: #555;
-    }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>OGE Ambassador Program | University of Georgia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600;1,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #A6192E;
+    --black: #000;
+    --panel: #0b0b0b;
+    --grey: #A7A8AA;
+    --card: #F4F0E6;
+    --pink: #C98796;
+    --pink-soft: #D99AA6;
+    --yellow: #F5EC7E;
+    --track: #4a4a46;
+    --white: #fff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { min-height: 100vh; background: var(--black); color: var(--white);
+    font-family: 'Playfair Display', Georgia, serif; }
+  button, input, select, textarea { font-family: inherit; }
+  .hidden { display: none !important; }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+  /* ---------- Signup ---------- */
+  #screen-onboarding { min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    padding: 1.5rem; background: var(--red); }
+  .card-panel { width: 100%; max-width: 460px; background: var(--panel); padding: 2.25rem; }
+  .eyebrow { font-size: .95rem; text-transform: uppercase; letter-spacing: .5px; margin-bottom: .75rem; }
+  .card-panel h2 { font-size: 1.8rem; font-weight: 700; text-transform: uppercase; margin-bottom: .5rem; }
+  .card-panel p.lead { font-size: .9rem; color: #bbb; margin-bottom: 1.5rem; font-style: italic; }
+  .form-group { margin-bottom: 1.1rem; }
+  label { display: block; font-size: .75rem; letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: .4rem; }
+  input[type=text], input[type=email], select, textarea {
+    width: 100%; padding: .8rem 1rem; background: #1a1a1a; border: 1px solid #3a3a3a;
+    color: var(--white); font-size: .95rem; }
+  textarea { resize: vertical; min-height: 90px; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--pink); }
+  .btn { width: 100%; padding: .9rem; background: var(--pink); color: var(--black); border: none;
+    border-radius: 999px; font-size: .95rem; font-weight: 700; cursor: pointer; }
+  .btn:hover { filter: brightness(1.08); }
+  .btn:disabled { opacity: .6; cursor: default; }
+  .btn.outline { background: transparent; color: var(--white); border: 1px solid #777; }
 
-    html, body {
-      width: 100%;
-      min-height: 100vh;
-      background-color: var(--uga-black);
-      font-family: 'Montserrat', sans-serif;
-      color: var(--uga-white);
-    }
+  /* ---------- Dashboard ---------- */
+  #screen-dashboard { display: grid; grid-template-columns: 1.6fr 1fr; min-height: 100vh; }
+  .left { display: flex; flex-direction: column; min-width: 0; }
+  .hero { background: var(--red); padding: 1.25rem 2rem 2.5rem; flex: 0 0 auto; }
+  .org { text-align: center; color: var(--black); text-transform: uppercase; font-size: 1.05rem; margin-bottom: .6rem; }
+  .banner { background: var(--black); text-align: center; text-transform: uppercase;
+    font-size: clamp(1.5rem, 3.2vw, 2.6rem); padding: .6rem 1rem; }
+  .hero-row { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
+    margin-top: 2.5rem; flex-wrap: wrap; }
+  .greeting { font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 900; line-height: .95;
+    color: var(--black); letter-spacing: -1px; }
+  .upload-btn { display: flex; align-items: center; gap: 1rem; background: var(--pink); color: var(--black);
+    border: none; border-radius: 22px; padding: 1rem 1.5rem 1rem 1rem; cursor: pointer; text-align: left;
+    box-shadow: 0 6px 16px rgba(0,0,0,.25); max-width: 320px; }
+  .upload-btn:hover { filter: brightness(1.06); }
+  .upload-icon { width: 52px; height: 52px; border-radius: 10px; background: var(--white);
+    display: flex; align-items: center; justify-content: center; font-size: 1.7rem; flex: 0 0 auto; }
+  .upload-title { font-size: 1.5rem; line-height: 1.05; }
+  .upload-sub { font-size: .8rem; font-style: italic; margin-top: .25rem; }
 
-    button, input, select {
-      font-family: inherit;
-    }
+  .earn { background: var(--grey); color: var(--black); padding: 1.5rem 2rem; flex: 1; }
+  .earn h3, .activity h3 { font-size: 1.5rem; font-weight: 700; text-transform: uppercase; }
+  .earn .intro { font-size: .8rem; font-style: italic; margin: .25rem 0 1rem; max-width: 640px; }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: .75rem; }
+  .act-card { background: var(--card); border-radius: 6px; padding: .75rem; display: flex; gap: .65rem;
+    position: relative; min-height: 84px; }
+  .act-icon { width: 30px; height: 30px; border-radius: 50%; background: var(--pink-soft); flex: 0 0 auto;
+    display: flex; align-items: center; justify-content: center; font-size: .85rem; font-weight: 700; }
+  .act-body { padding-right: 2.2rem; }
+  .act-body b { display: block; font-size: .8rem; line-height: 1.15; margin-bottom: .2rem; }
+  .act-body span { font-size: .65rem; line-height: 1.3; display: block; }
+  .act-pts { position: absolute; top: .6rem; right: .7rem; text-align: right; font-size: .8rem; font-weight: 700; line-height: 1; }
+  .act-pts small { display: block; font-size: .45rem; letter-spacing: 1px; font-weight: 600; margin-top: 2px; }
 
-    .viewport-container {
-      width: 100vw;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      background-color: var(--uga-black);
-    }
+  .activity { background: var(--grey); color: var(--black); padding: 0 2rem 1.5rem; }
+  .activity-inner { border-top: 1px solid rgba(0,0,0,.45); padding-top: .75rem; }
+  .activity .sub { font-size: .75rem; font-style: italic; }
+  #history-list { list-style: none; margin-top: .6rem; max-height: 180px; overflow-y: auto; }
+  #history-list li { display: flex; justify-content: space-between; gap: 1rem; padding: .45rem 0;
+    border-bottom: 1px solid rgba(0,0,0,.2); font-size: .85rem; }
+  #history-list li small { display: block; font-size: .7rem; font-style: italic; opacity: .75; }
+  .empty { font-size: .8rem; font-style: italic; }
 
-    /* ===== HEADER: red strip + black "AMBASSADOR PROGRAM" bar ===== */
-    .brand-header {
-      background-color: var(--uga-red);
-      padding: 0.65rem 1.5rem 0;
-    }
+  .right { background: var(--black); padding: 1.5rem 2rem; display: flex; flex-direction: column;
+    align-items: center; text-align: center; }
+  .right h2 { font-size: 2.2rem; font-weight: 700; text-transform: uppercase; margin-bottom: 1rem; }
+  .badge { width: 130px; height: 130px; border-radius: 50%; background: #5b5a55; display: flex;
+    align-items: center; justify-content: center; font-size: 3rem; margin-bottom: .6rem; }
+  .needed { font-size: .85rem; margin-bottom: 1.25rem; }
+  .gauge { display: flex; align-items: stretch; gap: .6rem; height: 230px; margin-bottom: 1rem; }
+  .gauge-bar { width: 34px; background: var(--track); border-radius: 3px; display: flex;
+    align-items: flex-end; overflow: hidden; }
+  .gauge-fill { width: 100%; height: 0%; background: var(--yellow); transition: height .8s ease; }
+  .ticks { position: relative; width: 44px; text-align: left; font-size: .8rem; }
+  .ticks span { position: absolute; left: 0; transform: translateY(50%); }
+  .progress-txt { font-size: .85rem; line-height: 1.5; }
+  .progress-txt em { display: block; margin-top: .6rem; }
+  .inspo { margin-top: auto; width: 100%; text-align: left; border-top: 1px solid #333; padding-top: 1rem; }
+  .inspo h4 { font-size: 1.1rem; font-style: italic; font-weight: 700; }
+  .inspo p { font-size: .8rem; margin: .2rem 0 .75rem; }
+  #idea-box { font-size: .85rem; font-style: italic; color: var(--yellow); margin-bottom: .75rem; min-height: 1.2em; }
+  .switch { background: none; border: none; color: #777; font-size: .7rem; margin-top: .9rem;
+    cursor: pointer; text-decoration: underline; align-self: center; }
 
-    .brand-header .title-group {
-      display: flex;
-      flex-direction: column;
-    }
+  /* ---------- Upload modal ---------- */
+  #upload-modal { position: fixed; inset: 0; background: rgba(0,0,0,.75); display: flex;
+    align-items: center; justify-content: center; padding: 1rem; z-index: 10; overflow-y: auto; }
+  #upload-modal .card-panel { max-width: 520px; border: 1px solid #2a2a2a; }
+  .dropzone { border: 2px dashed #555; padding: 1.5rem 1rem; text-align: center; cursor: pointer;
+    font-size: .9rem; color: #ccc; }
+  .dropzone.drag { border-color: var(--pink); background: #1a1a1a; }
+  .dropzone strong { color: var(--white); display: block; margin-top: .3rem; word-break: break-all; }
+  .row { display: flex; gap: .75rem; margin-top: 1.25rem; }
+  .err { color: #ff8a8a; font-size: .8rem; margin-top: .75rem; min-height: 1em; }
 
-    .brand-header .sub-title {
-      font-family: 'Cinzel', serif;
-      font-size: 0.7rem;
-      letter-spacing: 3px;
-      color: var(--uga-black);
-      text-transform: uppercase;
-      margin-bottom: 0.6rem;
-    }
+  /* ---------- Admin ---------- */
+  #screen-admin { padding: 2rem 1rem; display: flex; justify-content: center; }
+  #screen-admin .card-panel { max-width: 1000px; }
+  table { width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: .8rem; }
+  th, td { text-align: left; padding: .5rem; border-bottom: 1px solid #2a2a2a; vertical-align: top; }
+  th { color: var(--pink); text-transform: uppercase; font-size: .7rem; letter-spacing: 1px; }
+  .tablewrap { overflow-x: auto; }
 
-    .brand-header h1 {
-      display: none; /* replaced visually by the black bar below */
-    }
-
-    #reset-account-btn {
-      display: none;
-    }
-
-    .deco-line {
-      display: none;
-    }
-
-    .ambassador-bar {
-      background-color: var(--uga-black);
-      padding: 0.85rem 1.5rem;
-      font-family: 'Cinzel', serif;
-      font-size: 1.6rem;
-      font-weight: 700;
-      letter-spacing: 3px;
-      color: var(--uga-white);
-      text-transform: uppercase;
-    }
-
-    /* ===== MAIN ===== */
-    main {
-      flex: 1;
-      width: 100%;
-    }
-
-    .screen-view {
-      width: 100%;
-      min-height: calc(100vh - 90px);
-      display: flex;
-      padding: 1.25rem;
-      gap: 1.25rem;
-    }
-
-    .hidden { display: none !important; }
-
-    /* ===== SCREEN 1: ONBOARDING ===== */
-    .onboarding-frame {
-      width: 100%;
-      max-width: 480px;
-      margin: auto;
-      background-color: var(--panel-black);
-      border: 1px solid #333;
-      padding: 2.25rem;
-    }
-
-    .art-deco-title {
-      font-family: 'Cinzel', serif;
-      font-size: 1.6rem;
-      font-weight: 800;
-      color: var(--uga-white);
-      letter-spacing: 1.5px;
-      margin-bottom: 0.5rem;
-      text-transform: uppercase;
-    }
-
-    .form-group { margin-bottom: 1.1rem; }
-
-    label {
-      display: block;
-      font-family: 'Cinzel', serif;
-      font-size: 0.7rem;
-      letter-spacing: 1.5px;
-      color: var(--uga-white);
-      margin-bottom: 0.4rem;
-      text-transform: uppercase;
-    }
-
-    input, select {
-      width: 100%;
-      padding: 0.8rem 1rem;
-      background-color: #1c1c1c;
-      border: 1px solid #3a3a3a;
-      color: var(--uga-white);
-      font-size: 0.9rem;
-    }
-
-    input:focus, select:focus {
-      outline: none;
-      border-color: var(--uga-red);
-    }
-
-    .deco-btn {
-      width: 100%;
-      padding: 0.9rem;
-      background: var(--uga-red);
-      color: var(--uga-white);
-      border: none;
-      border-radius: 999px;
-      font-family: 'Cinzel', serif;
-      font-size: 0.85rem;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      cursor: pointer;
-    }
-
-    .deco-btn.outline {
-      background: transparent;
-      color: var(--uga-white);
-      border: 1px solid var(--uga-white);
-    }
-
-    /* ===== SCREEN 2: DASHBOARD ===== */
-    .dashboard-layout {
-      display: grid;
-      grid-template-columns: 1.35fr 1fr;
-      width: 100%;
-      gap: 0;
-    }
-
-    /* LEFT: RED PANEL */
-    .dash-left {
-      background-color: var(--uga-red);
-      padding: 2.5rem 2.25rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      gap: 2rem;
-    }
-
-    .greeting-text {
-      font-family: 'Cinzel', serif;
-      font-size: 2.6rem;
-      font-weight: 700;
-      line-height: 1.15;
-      color: var(--uga-black);
-      letter-spacing: 0.5px;
-    }
-
-    .action-stack {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      width: 100%;
-      max-width: 380px;
-    }
-
-    /* rounded pink "Upload your content" pill with square icon chip */
-    .action-pill {
-      background-color: var(--pill-gray);
-      color: var(--uga-white);
-      padding: 1rem 1.75rem;
-      font-family: 'Cinzel', serif;
-      font-weight: 700;
-      font-size: 0.8rem;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      text-align: center;
-      border: none;
-      border-radius: 999px;
-      cursor: pointer;
-    }
-
-    #btn-goto-upload {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      background-color: var(--upload-pink);
-      color: var(--uga-black);
-      text-align: left;
-      padding: 0.6rem 0.6rem 0.6rem 0.6rem;
-      max-width: 320px;
-    }
-
-    #btn-goto-upload::before {
-      content: "\2191";
-      flex: 0 0 56px;
-      height: 56px;
-      background-color: var(--uga-white);
-      color: var(--uga-black);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-      border-radius: 14px;
-    }
-
-    /* points strip under the greeting on the red panel (mobile-style summary) */
-    .points-inline {
-      display: none;
-    }
-
-    /* ===== RIGHT: BLACK GAUGE PANEL ===== */
-    .dash-right {
-      background-color: var(--panel-black);
-      padding: 2.5rem 2rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-
-    .dash-right h2 {
-      font-family: 'Cinzel', serif;
-      font-size: 1.5rem;
-      font-weight: 700;
-      letter-spacing: 2px;
-      color: var(--uga-white);
-      text-transform: uppercase;
-    }
-
-    .gauge-display-container {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: space-evenly;
-      gap: 1.5rem;
-    }
-
-    .circle-badge {
-      width: 130px;
-      height: 130px;
-      border-radius: 50%;
-      border: none;
-      background-color: var(--pill-gray-dark);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Cinzel', serif;
-      font-size: 3rem;
-      font-weight: 700;
-      color: var(--uga-white);
-      flex-shrink: 0;
-    }
-
-    .gauge-column {
-      display: flex;
-      gap: 1rem;
-      align-items: stretch;
-    }
-
-    .gauge-ticks {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 0.5rem 0;
-      font-family: 'Cinzel', serif;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--uga-white);
-      text-align: right;
-    }
-
-    .gauge-frame {
-      width: 34px;
-      background-color: var(--gauge-track);
-      border: none;
-      display: flex;
-      flex-direction: column-reverse;
-      overflow: hidden;
-    }
-
-    .gauge-fill {
-      background-color: var(--uga-yellow);
-      width: 100%;
-      height: 0%;
-      transition: height 0.8s ease-in-out;
-    }
-
-    .points-needed-note {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 0.8rem;
-      color: #ccc;
-      text-align: center;
-    }
-
-    /* ===== SCREEN 3: UPLOAD / SUBMISSIONS ===== */
-    .upload-screen-panel {
-      width: 100%;
-      max-width: 700px;
-      margin: auto;
-      background-color: var(--panel-black);
-      border: 1px solid #2a2a2a;
-      padding: 2.25rem;
-    }
-
-    .sub-history-list {
-      list-style: none;
-      max-height: 200px;
-      overflow-y: auto;
-      border: 1px solid #2a2a2a;
-      padding: 0.5rem;
-      margin-top: 0.5rem;
-    }
-
-    .sub-history-list li {
-      padding: 0.6rem 0.4rem;
-      border-bottom: 1px solid #222;
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.85rem;
-    }
-
-    /* ===== SCREEN 4: ADMIN VIEW ===== */
-    .admin-panel {
-      width: 100%;
-      max-width: 900px;
-      margin: auto;
-      background-color: var(--panel-black);
-      border: 1px solid #2a2a2a;
-      padding: 2.25rem;
-    }
-
-    .admin-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 1rem;
-      font-size: 0.85rem;
-    }
-
-    .admin-table th, .admin-table td {
-      text-align: left;
-      padding: 0.55rem 0.6rem;
-      border-bottom: 1px solid #2a2a2a;
-    }
-
-    .admin-table th {
-      font-family: 'Cinzel', serif;
-      letter-spacing: 1px;
-      color: var(--uga-red);
-      text-transform: uppercase;
-      font-size: 0.7rem;
-    }
-
-    .admin-table tbody { display: block; max-height: 55vh; overflow-y: auto; }
-    .admin-table thead, .admin-table tbody tr { display: table; width: 100%; table-layout: fixed; }
-
-    /* ================= MOBILE (stacked red card, like the phone mockups) ================= */
-    @media (max-width: 720px) {
-      .brand-header { padding: 0.6rem 1.25rem 0; }
-      .ambassador-bar { font-size: 1.15rem; padding: 0.7rem 1.25rem; }
-
-      .screen-view { padding: 0; }
-
-      .dashboard-layout {
-        grid-template-columns: 1fr;
-      }
-
-      .dash-left {
-        padding: 1.75rem 1.5rem;
-        gap: 1.5rem;
-      }
-
-      .greeting-text { font-size: 2rem; }
-
-      #btn-goto-upload { max-width: 100%; }
-
-      /* on mobile the yellow points bar + label sit inline under the upload
-         button inside the red card, matching the phone screenshots */
-      .points-inline {
-        display: flex;
-        flex-direction: column;
-        gap: 0.4rem;
-        max-width: 320px;
-      }
-
-      .points-inline .points-label {
-        font-family: 'Cinzel', serif;
-        font-weight: 700;
-        font-size: 1rem;
-        color: var(--uga-black);
-        letter-spacing: 1px;
-      }
-
-      .points-inline .points-track {
-        width: 100%;
-        height: 10px;
-        background-color: var(--gauge-track);
-      }
-
-      .points-inline .points-track-fill {
-        height: 100%;
-        background-color: var(--uga-yellow);
-      }
-
-      .points-inline .points-note {
-        font-size: 0.7rem;
-        color: #3a0008;
-        text-align: center;
-      }
-
-      /* hide the desktop gauge panel's own heading redundancy on mobile stack */
-      .dash-right {
-        padding: 1.75rem 1.5rem;
-      }
-
-      .action-stack { max-width: 100%; }
-      .action-pill { text-align: center; }
-
-      .onboarding-frame, .upload-screen-panel {
-        margin: 1rem;
-        padding: 1.75rem;
-      }
-    }
-  </style>
+  /* ---------- Mobile ---------- */
+  @media (max-width: 900px) {
+    #screen-dashboard { grid-template-columns: 1fr; }
+    .cards { grid-template-columns: repeat(2, 1fr); }
+    .hero, .earn, .right { padding-left: 1.25rem; padding-right: 1.25rem; }
+    .activity { padding-left: 1.25rem; padding-right: 1.25rem; }
+    .inspo { margin-top: 2rem; }
+  }
+  @media (max-width: 520px) {
+    .cards { grid-template-columns: 1fr; }
+    .upload-btn { max-width: 100%; width: 100%; }
+  }
+</style>
 </head>
 <body>
 
-  <div class="viewport-container">
-
-    <!-- BRAND HEADER -->
-    <header class="brand-header">
-      <div class="title-group">
-        <span class="sub-title">UGA Office of Global Engagement</span>
+<!-- SIGNUP (shown only the first time) -->
+<section id="screen-onboarding" class="hidden">
+  <div class="card-panel">
+    <div class="eyebrow">UGA Office of Global Engagement</div>
+    <h2>Ambassador Portal</h2>
+    <p class="lead">Enter your details once and this browser will remember you.</p>
+    <form id="onboarding-form">
+      <div class="form-group">
+        <label for="input-name">Full Name</label>
+        <input type="text" id="input-name" required placeholder="e.g. Charlotte Holzapfel" autocomplete="name">
       </div>
-      <button id="reset-account-btn" class="deco-btn outline" style="width: auto; padding: 0.4rem 1rem; font-size: 0.7rem;">Switch Account</button>
-    </header>
-    <div class="ambassador-bar">Ambassador Program</div>
+      <div class="form-group">
+        <label for="input-email">UGA Email Address</label>
+        <input type="email" id="input-email" required placeholder="username@uga.edu" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label for="input-program">Length of Program</label>
+        <select id="input-program" required>
+          <option value="">-- Select Program --</option>
+          <option value="Week">Week (60 points required)</option>
+          <option value="Maymester">Maymester (100 points required)</option>
+          <option value="Semester">Semester (150 points required)</option>
+        </select>
+      </div>
+      <button type="submit" class="btn">Continue</button>
+    </form>
+  </div>
+</section>
 
-    <main>
+<!-- DASHBOARD -->
+<section id="screen-dashboard" class="hidden">
+  <div class="left">
+    <div class="hero">
+      <div class="org">UGA Office of Global Engagement</div>
+      <div class="banner">Ambassador Program</div>
+      <div class="hero-row">
+        <h1 class="greeting">Hi, <span id="first-name">Ambassador</span>.<br>Welcome<br>back!</h1>
+        <button class="upload-btn" id="open-upload" type="button">
+          <span class="upload-icon">&#8593;</span>
+          <span>
+            <div class="upload-title">Upload your content</div>
+            <div class="upload-sub">Share your latest Ambassador content</div>
+          </span>
+        </button>
+      </div>
+    </div>
 
-      <!-- SCREEN 1: ONBOARDING / SETUP -->
-      <section id="screen-onboarding" class="screen-view">
-        <div class="onboarding-frame">
-          <h2 class="art-deco-title">Ambassador Portal</h2>
-          <p style="font-size: 0.85rem; color: #AAA; margin-bottom: 1.5rem;">Enter your details to register or recover your tracking profile.</p>
+    <div class="earn">
+      <h3>Ways to earn points</h3>
+      <p class="intro">Explore different ways to showcase your study abroad experience. There is no set order — do what interests you, and repeat activities as often as you'd like.</p>
+      <div class="cards" id="cards"></div>
+    </div>
 
-          <form id="onboarding-form">
-            <div class="form-group">
-              <label for="input-name">Full Name</label>
-              <input type="text" id="input-name" required placeholder="e.g. Charlotte Holzapfel" />
-            </div>
-
-            <div class="form-group">
-              <label for="input-email">UGA Email Address</label>
-              <input type="email" id="input-email" required placeholder="username@uga.edu" />
-            </div>
-
-            <div class="form-group">
-              <label for="input-program">Length of Program</label>
-              <select id="input-program" required>
-                <option value="">-- Select Program --</option>
-                <option value="Week">Week (60 Points Required)</option>
-                <option value="Maymester">Maymester (100 Points Required)</option>
-                <option value="Semester">Semester (150 Points Required)</option>
-              </select>
-            </div>
-
-            <button type="submit" class="deco-btn">Initialize Portal</button>
-          </form>
-        </div>
-      </section>
-
-      <!-- SCREEN 2: MAIN DASHBOARD -->
-      <section id="screen-dashboard" class="screen-view hidden">
-        <div class="dashboard-layout">
-
-          <!-- LEFT CANVAS -->
-          <div class="dash-left">
-            <div>
-              <h2 class="greeting-text">Hi, <span id="dash-first-name">Ambassador</span>.<br/>Welcome back!</h2>
-            </div>
-
-            <div class="action-stack">
-              <div class="action-pill" id="btn-goto-upload">Upload your content</div>
-
-              <!-- mobile-only inline points readout -->
-              <div class="points-inline">
-                <span class="points-label">Points: <span id="dash-pts-val-mobile">0</span></span>
-                <div class="points-track"><div class="points-track-fill" id="dash-points-track-fill" style="width:0%;"></div></div>
-                <span class="points-note">Points Needed: <span id="dash-pts-needed-mobile">100</span></span>
-              </div>
-
-              <div class="action-pill" id="btn-goto-activities">List of Activities</div>
-              <div class="action-pill" id="btn-view-submissions">My Submissions</div>
-            </div>
-          </div>
-
-          <!-- RIGHT CANVAS: POINTS GAUGE -->
-          <div class="dash-right">
-            <h2>Points:</h2>
-            <div class="gauge-display-container">
-
-              <div class="circle-badge" id="dash-pts-val">0</div>
-
-              <div class="gauge-column">
-                <div class="gauge-ticks">
-                  <span>75%</span>
-                  <span>50%</span>
-                  <span>25%</span>
-                </div>
-                <div class="gauge-frame">
-                  <div class="gauge-fill" id="dash-gauge-fill"></div>
-                </div>
-              </div>
-
-            </div>
-            <p class="points-needed-note">Points Needed: <span id="dash-pts-needed">100</span></p>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- SCREEN 3: UPLOAD CONTENT PANEL -->
-      <section id="screen-upload" class="screen-view hidden">
-        <div class="upload-screen-panel">
-          <h2 class="art-deco-title">Submit Activity</h2>
-          <p style="font-size: 0.85rem; color: #AAA; margin-bottom: 1.5rem;">Upload proof of activity to register points to your account.</p>
-
-          <form id="upload-form">
-            <div class="form-group">
-              <label for="upload-activity">Activity Performed</label>
-              <select id="upload-activity" required>
-                <option value="">-- Select Activity --</option>
-                <option value="Social Media Post">Social Media Post (10 pts)</option>
-                <option value="Tabling Event">Tabling Event (20 pts)</option>
-                <option value="Presentation">Presentation (30 pts)</option>
-                <option value="Blog/Article">Blog/Article (15 pts)</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="upload-file">Upload Proof File (Optional)</label>
-              <input type="file" id="upload-file" accept="image/*,application/pdf" />
-            </div>
-
-            <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
-              <button type="submit" id="submit-upload-btn" class="deco-btn">Submit Content</button>
-              <button type="button" id="btn-back-dash" class="deco-btn outline">Back to Dashboard</button>
-            </div>
-          </form>
-
-          <div id="submissions-modal-box" style="margin-top: 2rem;">
-            <label>Recent Logged Submissions</label>
-            <ul id="history-list" class="sub-history-list">
-              <li><span>No submissions logged yet.</span></li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <!-- SCREEN 4: ADMIN VIEW (only reachable via ?admin=1 in the URL) -->
-      <section id="screen-admin" class="screen-view hidden">
-        <div class="admin-panel">
-          <h2 class="art-deco-title">Admin: All Submissions</h2>
-          <p style="font-size: 0.85rem; color: #AAA; margin-bottom: 1rem;">Live pull from Master_sheet. Enter the admin key to load.</p>
-          <div class="form-group" style="display:flex; gap: 0.75rem; align-items:flex-end;">
-            <div style="flex:1;">
-              <label for="admin-key-input">Admin Key</label>
-              <input type="password" id="admin-key-input" placeholder="Admin key" />
-            </div>
-            <button id="admin-load-btn" class="deco-btn" style="width:auto; padding: 0.8rem 1.5rem;">Load</button>
-          </div>
-          <div id="admin-status" style="font-size:0.8rem; color:#aaa; margin-top:0.5rem;"></div>
-          <table class="admin-table">
-            <thead>
-              <tr><th>Date</th><th>Name</th><th>Activity</th><th>Email</th><th>Points</th><th>Proof</th></tr>
-            </thead>
-            <tbody id="admin-rows"></tbody>
-          </table>
-        </div>
-      </section>
-
-    </main>
+    <div class="activity">
+      <div class="activity-inner">
+        <h3>Your activity</h3>
+        <div class="sub">Everything you've submitted is tracked here automatically.</div>
+        <ul id="history-list"><li class="empty">No submissions yet. Upload your first piece of content to start earning points!</li></ul>
+      </div>
+    </div>
   </div>
 
-  <script>
-    // DEPLOYED APPS SCRIPT WEB APP URL (paste the /exec URL from your deployment)
-    const SCRIPT_URL = "YOUR_EXACT_DEPLOYED_APPS_SCRIPT_URL_HERE";
+  <aside class="right">
+    <h2>Points:</h2>
+    <div class="badge" id="pts-badge">0</div>
+    <div class="needed">Points Needed: <span id="pts-needed">100</span></div>
+    <div class="gauge">
+      <div class="gauge-bar"><div class="gauge-fill" id="gauge-fill"></div></div>
+      <div class="ticks">
+        <span style="bottom:100%">100%</span>
+        <span style="bottom:75%">75%</span>
+        <span style="bottom:50%">50%</span>
+        <span style="bottom:25%">25%</span>
+      </div>
+    </div>
+    <div class="progress-txt">
+      <span id="pts-fraction">0 / 100</span><br>
+      <span id="pts-pct">0% COMPLETE</span>
+      <em id="pts-togo">100 points to go!</em>
+    </div>
 
-    // How often to re-poll the sheet for live point updates (ms)
-    const POLL_INTERVAL = 30000;
-    let pollTimer = null;
+    <div class="inspo">
+      <h4>Need some inspiration?</h4>
+      <p>Get a photo or reel idea for your next submission.</p>
+      <div id="idea-box"></div>
+      <button class="btn" id="gen-ideas" type="button">&#10022; Generate Ideas</button>
+    </div>
+    <button class="switch" id="switch-account" type="button">Not you? Switch account</button>
+  </aside>
+</section>
 
-    const screenOnboarding = document.getElementById('screen-onboarding');
-    const screenDashboard = document.getElementById('screen-dashboard');
-    const screenUpload = document.getElementById('screen-upload');
-    const screenAdmin = document.getElementById('screen-admin');
+<!-- UPLOAD MODAL -->
+<div id="upload-modal" class="hidden">
+  <div class="card-panel">
+    <h2>Submit content</h2>
+    <p class="lead">Upload your content, choose the activity, and add an optional note.</p>
+    <form id="upload-form">
+      <div class="form-group">
+        <label>Content File</label>
+        <div class="dropzone" id="dropzone">
+          Drag a file here or click to browse
+          <strong id="file-name"></strong>
+        </div>
+        <input type="file" id="upload-file" accept="image/*,video/*,application/pdf" class="hidden">
+      </div>
+      <div class="form-group">
+        <label for="upload-activity">Activity</label>
+        <select id="upload-activity" required></select>
+      </div>
+      <div class="form-group">
+        <label for="upload-desc">Description (optional)</label>
+        <textarea id="upload-desc" maxlength="1000" placeholder="Add a short note about your content..."></textarea>
+      </div>
+      <div class="err" id="upload-err"></div>
+      <div class="row">
+        <button type="submit" class="btn" id="submit-btn">Submit</button>
+        <button type="button" class="btn outline" id="cancel-upload">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
 
-    const onboardingForm = document.getElementById('onboarding-form');
-    const uploadForm = document.getElementById('upload-form');
-    const btnGotoUpload = document.getElementById('btn-goto-upload');
-    const btnGotoActivities = document.getElementById('btn-goto-activities');
-    const btnViewSubmissions = document.getElementById('btn-view-submissions');
-    const btnBackDash = document.getElementById('btn-back-dash');
-    const resetAccountBtn = document.getElementById('reset-account-btn');
-    const adminLoadBtn = document.getElementById('admin-load-btn');
+<!-- ADMIN (only via ?admin=1) -->
+<section id="screen-admin" class="hidden">
+  <div class="card-panel">
+    <h2>Admin: all submissions</h2>
+    <div class="form-group" style="display:flex; gap:.75rem; align-items:flex-end; margin-top:1rem;">
+      <div style="flex:1"><label for="admin-key">Admin Key</label><input type="password" id="admin-key" style="width:100%;padding:.8rem 1rem;background:#1a1a1a;border:1px solid #3a3a3a;color:#fff"></div>
+      <button class="btn" id="admin-load" style="width:auto;padding:.8rem 1.5rem">Load</button>
+    </div>
+    <div id="admin-status" style="font-size:.8rem;color:#aaa"></div>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Date</th><th>Name</th><th>Activity</th><th>Email</th><th>Pts</th><th>Note</th><th>Proof</th></tr></thead>
+      <tbody id="admin-rows"></tbody>
+    </table></div>
+  </div>
+</section>
 
-    document.addEventListener('DOMContentLoaded', () => {
-      // Visit the page with ?admin=1 to reach the admin submissions view
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('admin') === '1') {
-        switchScreen(screenAdmin);
-        return;
-      }
+<script>
+  // 
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby869wai6a88L7yWuvXHEo5SzGpVJgQaXchCk2uIx_smVBM1zqSA9YGxlmr5lmFd6ko7Q/exec";
+  const POLL_MS = 30000;
+  const MAX_FILE_MB = 8; // Apps Script request limit makes very large files unreliable
 
-      const savedName = localStorage.getItem('oge_user_name');
-      const savedEmail = localStorage.getItem('oge_user_email');
-      const savedProg = localStorage.getItem('oge_user_program');
+  // Names must match ACTIVITY_POINTS in Code.gs. Points here are display only;
+  // the server is the source of truth.
+  const ACTIVITIES = [
+    { name: "@UGAStudyAbroad Story Takeover", pts: 30, icon: "\u25C9", desc: "Take over the UGA Study Abroad Instagram story and give students a glimpse into your experience." },
+    { name: "Edited Reel", pts: 50, icon: "\u25B6", desc: "Submit an already-edited reel that showcases your study abroad experience for the feed." },
+    { name: "Student Spotlight", pts: 20, icon: "\u2726", desc: "Highlight another student and share something memorable about their experience abroad." },
+    { name: "Ambassador Bulldog", pts: 20, icon: "\u2661", desc: "Capture a photo with the Ambassador Bulldog while showing where your experience has taken you." },
+    { name: "UGA Merch", pts: 15, icon: "\u271A", desc: "Show off your UGA pride by incorporating UGA merchandise into your experience." },
+    { name: "LinkedIn Post", pts: 25, icon: "in", desc: "Reflect on your Ambassador experience and share what you've learned with your professional network." }
+  ];
 
-      if (savedName && savedEmail && savedProg) {
-        showDashboard(savedName, savedEmail, savedProg);
-      }
-    });
+  const IDEAS = [
+    "Film a 15-second 'day in my life abroad' reel with three quick cuts.",
+    "Photo idea: your favorite local food with the UGA flag or a Georgia shirt in frame.",
+    "Reel idea: 'Things I didn't expect' — five surprises from your first week.",
+    "Snap the Ambassador Bulldog at a landmark and tell the story behind the spot.",
+    "Interview a friend abroad: one question, one memorable answer.",
+    "Before/after reel: how you felt on arrival day vs. now.",
+    "Photo idea: a street sign or station name that shows where you are, with a short caption.",
+    "LinkedIn angle: one skill you built abroad and a concrete moment that proves it.",
+    "Reel idea: a 'how to get around' guide for future students.",
+    "Photo idea: your view from class or your study spot, with one tip for future students."
+  ];
 
-    function switchScreen(activeScreen) {
-      screenOnboarding.classList.add('hidden');
-      screenDashboard.classList.add('hidden');
-      screenUpload.classList.add('hidden');
-      screenAdmin.classList.add('hidden');
-      activeScreen.classList.remove('hidden');
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g,
+    c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
-      // Only poll for live updates while the dashboard is actually visible
-      if (activeScreen === screenDashboard) {
-        startPolling();
-      } else {
-        stopPolling();
-      }
+  const KEYS = { name: 'oge_user_name', email: 'oge_user_email', program: 'oge_user_program' };
+  const store = {
+    get: k => { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} },
+    clear: () => { try { Object.values(KEYS).forEach(k => localStorage.removeItem(k)); } catch (e) {} }
+  };
+  const user = () => ({ name: store.get(KEYS.name), email: store.get(KEYS.email), program: store.get(KEYS.program) });
+
+  let pollTimer = null;
+  let lastIdea = -1;
+
+  function show(id) {
+    ['screen-onboarding', 'screen-dashboard', 'screen-admin'].forEach(s => $(s).classList.toggle('hidden', s !== id));
+    clearInterval(pollTimer);
+    if (id === 'screen-dashboard') pollTimer = setInterval(refresh, POLL_MS);
+  }
+
+  // ----- init -----
+  function renderCards() {
+    $('cards').innerHTML = ACTIVITIES.map(a => `
+      <div class="act-card">
+        <div class="act-icon">${esc(a.icon)}</div>
+        <div class="act-body"><b>${esc(a.name)}</b><span>${esc(a.desc)}</span></div>
+        <div class="act-pts">+${a.pts}<small>POINTS</small></div>
+      </div>`).join('');
+    $('upload-activity').innerHTML = '<option value="">-- Select Activity --</option>' +
+      ACTIVITIES.map(a => `<option value="${esc(a.name)}">${esc(a.name)} (+${a.pts} pts)</option>`).join('');
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    renderCards();
+    if (new URLSearchParams(location.search).get('admin') === '1') { show('screen-admin'); return; }
+    const u = user();
+    if (u.name && u.email && u.program) openDashboard(); else show('screen-onboarding');
+  });
+
+  // ----- signup (once) -----
+  $('onboarding-form').addEventListener('submit', e => {
+    e.preventDefault();
+    const name = $('input-name').value.trim();
+    const email = $('input-email').value.trim();
+    const program = $('input-program').value;
+    if (!name || !email || !program) return;
+    store.set(KEYS.name, name); store.set(KEYS.email, email); store.set(KEYS.program, program);
+    openDashboard();
+  });
+
+  $('switch-account').addEventListener('click', () => {
+    if (!confirm('Switch account? This browser will forget your details.')) return;
+    store.clear();
+    $('onboarding-form').reset();
+    show('screen-onboarding');
+  });
+
+  // ----- dashboard -----
+  function openDashboard() {
+    $('first-name').textContent = user().name.split(' ')[0];
+    show('screen-dashboard');
+    refresh();
+  }
+
+  function render(d) {
+    const got = Number(d.pointsAchieved) || 0;
+    const need = Number(d.pointsNeeded) || 100;
+    const pct = Math.min(100, Math.round(got / need * 100));
+    $('pts-badge').textContent = got;
+    $('pts-needed').textContent = need;
+    $('pts-fraction').textContent = `${got} / ${need}`;
+    $('pts-pct').textContent = `${pct}% COMPLETE`;
+    $('pts-togo').textContent = got >= need ? 'Goal reached — congratulations!' : `${need - got} points to go!`;
+    $('gauge-fill').style.height = pct + '%';
+    renderHistory(d.history);
+  }
+
+  function renderHistory(h) {
+    const ul = $('history-list');
+    if (!h || !h.length) {
+      ul.innerHTML = '<li class="empty">No submissions yet. Upload your first piece of content to start earning points!</li>';
+      return;
     }
+    ul.innerHTML = h.map(i => `<li><span>${esc(i.activity)}${i.description ? `<small>${esc(i.description)}</small>` : ''}</span><strong>+${esc(i.points)} pts</strong></li>`).join('');
+  }
 
-    function startPolling() {
-      stopPolling();
-      pollTimer = setInterval(() => {
-        const name = localStorage.getItem('oge_user_name');
-        const email = localStorage.getItem('oge_user_email');
-        const program = localStorage.getItem('oge_user_program');
-        if (name) refreshPoints(name, email, program);
-      }, POLL_INTERVAL);
+  async function refresh() {
+    const u = user();
+    if (!u.name) return;
+    try {
+      const res = await fetch(`${SCRIPT_URL}?name=${encodeURIComponent(u.name)}&program=${encodeURIComponent(u.program)}`);
+      const d = await res.json();
+      if (d.status === 'success') render(d); else console.warn(d.message);
+    } catch (err) { console.error(err); }
+  }
+
+  // ----- inspiration -----
+  $('gen-ideas').addEventListener('click', () => {
+    let i;
+    do { i = Math.floor(Math.random() * IDEAS.length); } while (i === lastIdea && IDEAS.length > 1);
+    lastIdea = i;
+    $('idea-box').textContent = IDEAS[i];
+  });
+
+  // ----- upload modal -----
+  const fileInput = $('upload-file');
+  const dz = $('dropzone');
+
+  function openModal() { $('upload-err').textContent = ''; $('upload-modal').classList.remove('hidden'); }
+  function closeModal() {
+    $('upload-modal').classList.add('hidden');
+    $('upload-form').reset();
+    $('file-name').textContent = '';
+  }
+  $('open-upload').addEventListener('click', openModal);
+  $('cancel-upload').addEventListener('click', closeModal);
+  $('upload-modal').addEventListener('click', e => { if (e.target.id === 'upload-modal') closeModal(); });
+
+  dz.addEventListener('click', () => fileInput.click());
+  fileInput.addEventListener('change', () => { $('file-name').textContent = fileInput.files[0] ? fileInput.files[0].name : ''; });
+  ['dragenter', 'dragover'].forEach(ev => dz.addEventListener(ev, e => { e.preventDefault(); dz.classList.add('drag'); }));
+  ['dragleave', 'drop'].forEach(ev => dz.addEventListener(ev, e => { e.preventDefault(); dz.classList.remove('drag'); }));
+  dz.addEventListener('drop', e => {
+    if (e.dataTransfer.files.length) {
+      fileInput.files = e.dataTransfer.files;
+      $('file-name').textContent = fileInput.files[0].name;
     }
+  });
 
-    function stopPolling() {
-      if (pollTimer) clearInterval(pollTimer);
-      pollTimer = null;
+  const toBase64 = file => new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = () => res(r.result);
+    r.onerror = rej;
+    r.readAsDataURL(file);
+  });
+
+  $('upload-form').addEventListener('submit', async e => {
+    e.preventDefault();
+    const err = $('upload-err');
+    err.textContent = '';
+    const file = fileInput.files[0];
+    const activity = $('upload-activity').value;
+    if (!file) { err.textContent = 'Please choose a file to upload.'; return; }
+    if (!activity) { err.textContent = 'Please select an activity.'; return; }
+    if (file.size > MAX_FILE_MB * 1024 * 1024) { err.textContent = `File is too large (max ${MAX_FILE_MB} MB). For longer videos, upload a smaller version.`; return; }
+
+    const btn = $('submit-btn');
+    btn.disabled = true; btn.textContent = 'Submitting...';
+    const u = user();
+    try {
+      const payload = {
+        name: u.name, email: u.email, activity,
+        description: $('upload-desc').value.trim(),
+        fileData: await toBase64(file), fileName: file.name, fileMime: file.type
+      };
+      // No custom headers: avoids a CORS preflight, which Apps Script can't answer.
+      const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
+      const r = await res.json();
+      if (r.status !== 'success') throw new Error(r.message || 'Unknown error');
+      closeModal();
+      await refresh();
+    } catch (ex) {
+      console.error(ex);
+      err.textContent = 'Submission failed. Please try again.';
+    } finally {
+      btn.disabled = false; btn.textContent = 'Submit';
     }
+  });
 
-    onboardingForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const name = document.getElementById('input-name').value.trim();
-      const email = document.getElementById('input-email').value.trim();
-      const program = document.getElementById('input-program').value;
-
-      if (name && email && program) {
-        localStorage.setItem('oge_user_name', name);
-        localStorage.setItem('oge_user_email', email);
-        localStorage.setItem('oge_user_program', program);
-        showDashboard(name, email, program);
-      }
-    });
-
-    async function showDashboard(fullName, email, program) {
-      switchScreen(screenDashboard);
-      const firstName = fullName.split(' ')[0];
-      document.getElementById('dash-first-name').textContent = firstName;
-      await refreshPoints(fullName, email, program);
-    }
-
-    // Pulls the latest totals from the sheet and updates the on-screen
-    // gauge/history without switching screens — used for the initial load,
-    // the periodic poll, and right after a new submission.
-    async function refreshPoints(fullName, email, program) {
-      try {
-        const res = await fetch(`${SCRIPT_URL}?name=${encodeURIComponent(fullName)}&program=${encodeURIComponent(program)}`);
-        const data = await res.json();
-
-        if (data.status === 'success') {
-          document.getElementById('dash-pts-val').textContent = data.pointsAchieved;
-          document.getElementById('dash-pts-val-mobile').textContent = data.pointsAchieved;
-          document.getElementById('dash-pts-needed').textContent = data.pointsNeeded;
-          document.getElementById('dash-pts-needed-mobile').textContent = data.pointsNeeded;
-
-          const pct = Math.min(100, Math.round((data.pointsAchieved / data.pointsNeeded) * 100));
-          document.getElementById('dash-gauge-fill').style.height = `${pct}%`;
-          document.getElementById('dash-points-track-fill').style.width = `${pct}%`;
-
-          renderHistory(data.history);
-        } else {
-          console.warn('refreshPoints error:', data.message);
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    }
-
-    function renderHistory(history) {
-      const historyList = document.getElementById('history-list');
-      historyList.innerHTML = '';
-      if (!history || history.length === 0) {
-        historyList.innerHTML = '<li><span>No submissions recorded.</span></li>';
-      } else {
-        history.forEach(item => {
-          const li = document.createElement('li');
-          li.innerHTML = `<span>${item.activity}</span><strong>+${item.points} pts</strong>`;
-          historyList.appendChild(li);
-        });
-      }
-    }
-
-    // ---- Admin view: pulls every submission from Master_sheet ----
-    adminLoadBtn.addEventListener('click', async () => {
-      const key = document.getElementById('admin-key-input').value.trim();
-      const statusEl = document.getElementById('admin-status');
-      const rowsEl = document.getElementById('admin-rows');
-
-      if (!key) {
-        statusEl.textContent = 'Enter the admin key.';
-        return;
-      }
-
-      statusEl.textContent = 'Loading...';
-      try {
-        const res = await fetch(`${SCRIPT_URL}?admin=1&key=${encodeURIComponent(key)}`);
-        const data = await res.json();
-
-        if (data.status !== 'success') {
-          statusEl.textContent = data.message || 'Invalid key.';
-          rowsEl.innerHTML = '';
-          return;
-        }
-
-        statusEl.textContent = `${data.submissions.length} submissions loaded.`;
-        rowsEl.innerHTML = '';
-        data.submissions.forEach(row => {
-          const tr = document.createElement('tr');
-          const dateStr = row.date ? new Date(row.date).toLocaleDateString() : '';
-          tr.innerHTML = `
-            <td>${dateStr}</td>
-            <td>${row.name || ''}</td>
-            <td>${row.activity || ''}</td>
-            <td>${row.email || ''}</td>
-            <td>${row.points}</td>
-            <td>${row.fileUrl ? `<a href="${row.fileUrl}" target="_blank" style="color:#F5EC7E;">View</a>` : '—'}</td>
-          `;
-          rowsEl.appendChild(tr);
-        });
-      } catch (err) {
-        statusEl.textContent = 'Error loading submissions.';
-        console.error(err);
-      }
-    });
-
-    btnGotoUpload.addEventListener('click', () => switchScreen(screenUpload));
-    btnGotoActivities.addEventListener('click', () => switchScreen(screenUpload));
-    btnViewSubmissions.addEventListener('click', () => switchScreen(screenUpload));
-    btnBackDash.addEventListener('click', () => switchScreen(screenDashboard));
-
-    resetAccountBtn.addEventListener('click', () => {
-      localStorage.clear();
-      switchScreen(screenOnboarding);
-    });
-
-    uploadForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const submitBtn = document.getElementById('submit-upload-btn');
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'TRANSMITTING...';
-
-      const name = localStorage.getItem('oge_user_name');
-      const email = localStorage.getItem('oge_user_email');
-      const program = localStorage.getItem('oge_user_program');
-      const activity = document.getElementById('upload-activity').value;
-      const fileInput = document.getElementById('upload-file');
-
-      let fileData = null, fileName = null, fileMime = null;
-      if (fileInput.files.length > 0) {
-        const file = fileInput.files[0];
-        fileName = file.name;
-        fileMime = file.type;
-        fileData = await convertBase64(file);
-      }
-
-      const payload = { name, email, activity, fileData, fileName, fileMime };
-
-      try {
-        const res = await fetch(SCRIPT_URL, {
-          method: 'POST',
-          body: JSON.stringify(payload)
-        });
-        const result = await res.json();
-
-        if (result.status !== 'success') {
-          throw new Error(result.message || 'Unknown error');
-        }
-
-        uploadForm.reset();
-        switchScreen(screenDashboard);
-        document.getElementById('dash-pts-val').textContent = result.pointsAchieved;
-        document.getElementById('dash-pts-val-mobile').textContent = result.pointsAchieved;
-        renderHistory(result.history);
-        // one more full refresh to pick up an updated pointsNeeded/gauge %
-        await refreshPoints(name, email, program);
-      } catch (err) {
-        alert('Submission error. Please try again.');
-        console.error(err);
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Submit Content';
-      }
-    });
-
-    function convertBase64(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
-      });
-    }
-  </script>
+  // ----- admin -----
+  $('admin-load').addEventListener('click', async () => {
+    const key = $('admin-key').value.trim();
+    const st = $('admin-status'), body = $('admin-rows');
+    if (!key) { st.textContent = 'Enter the admin key.'; return; }
+    st.textContent = 'Loading...';
+    try {
+      const res = await fetch(`${SCRIPT_URL}?admin=1&key=${encodeURIComponent(key)}`);
+      const d = await res.json();
+      if (d.status !== 'success') { st.textContent = d.message || 'Invalid key.'; body.innerHTML = ''; return; }
+      st.textContent = `${d.submissions.length} submissions loaded.`;
+      body.innerHTML = d.submissions.map(r => {
+        const link = /^https:\/\//.test(r.fileUrl || '') ? `<a href="${esc(r.fileUrl)}" target="_blank" rel="noopener" style="color:#F5EC7E">View</a>` : '—';
+        return `<tr><td>${r.date ? esc(new Date(r.date).toLocaleDateString()) : ''}</td><td>${esc(r.name)}</td><td>${esc(r.activity)}</td><td>${esc(r.email)}</td><td>${esc(r.points)}</td><td>${esc(r.description)}</td><td>${link}</td></tr>`;
+      }).join('');
+    } catch (ex) { st.textContent = 'Error loading submissions.'; console.error(ex); }
+  });
+</script>
 </body>
 </html>
