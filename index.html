@@ -129,6 +129,39 @@
   th { color: var(--pink); text-transform: uppercase; font-size: .7rem; letter-spacing: 1px; }
   .tablewrap { overflow-x: auto; }
 
+  /* ---------- Desktop: fit to one screen, no page scroll ---------- */
+  @media (min-width: 901px) {
+    html, body { height: 100%; overflow: hidden; }
+    #screen-dashboard { height: 100vh; min-height: 0; overflow: hidden; }
+    .left { min-height: 0; height: 100vh; }
+    .hero { padding: 1vh 2rem 2.5vh; }
+    .org { font-size: clamp(.8rem, 1.9vh, 1.05rem); margin-bottom: .5vh; }
+    .banner { font-size: clamp(1.2rem, 4.2vh, 2.6rem); padding: .5vh 1rem; }
+    .hero-row { margin-top: 2.5vh; }
+    .greeting { font-size: clamp(2rem, 7.5vh, 4rem); }
+    .upload-icon { width: clamp(40px, 6vh, 52px); height: clamp(40px, 6vh, 52px); }
+    .upload-title { font-size: clamp(1.1rem, 2.8vh, 1.5rem); }
+    .earn { min-height: 0; padding: 1.5vh 2rem; overflow: hidden; display: flex; flex-direction: column; }
+    .earn h3, .activity h3 { font-size: clamp(1.1rem, 2.8vh, 1.5rem); }
+    .earn .intro { margin: .2vh 0 1vh; font-size: clamp(.7rem, 1.5vh, .8rem); }
+    .cards { flex: 1; min-height: 0; grid-auto-rows: 1fr; gap: .8vh .75rem; }
+    .act-card { min-height: 0; padding: .6rem .7rem; overflow: hidden; }
+    .act-body span { font-size: clamp(.55rem, 1.25vh, .65rem); }
+    .act-body b { font-size: clamp(.7rem, 1.5vh, .8rem); }
+    .activity { padding-bottom: 1.2vh; }
+    .activity-inner { padding-top: .8vh; }
+    #history-list { max-height: 11vh; margin-top: .4vh; }
+    .right { height: 100vh; padding: 1.5vh 2rem; overflow: hidden; }
+    .right h2 { font-size: clamp(1.6rem, 4.5vh, 2.2rem); margin-bottom: 1vh; }
+    .badge { width: clamp(80px, 14vh, 130px); height: clamp(80px, 14vh, 130px); font-size: clamp(2rem, 5vh, 3rem); margin-bottom: .6vh; }
+    .needed { margin-bottom: 1.5vh; }
+    .gauge { height: clamp(110px, 25vh, 230px); margin-bottom: 1vh; }
+    .progress-txt em { margin-top: .5vh; }
+    .inspo { padding-top: 1vh; }
+    .inspo p { margin: .2vh 0 .8vh; }
+    .switch { margin-top: .6vh; }
+  }
+
   /* ---------- Mobile ---------- */
   @media (max-width: 900px) {
     #screen-dashboard { grid-template-columns: 1fr; }
@@ -154,7 +187,7 @@
     <form id="onboarding-form">
       <div class="form-group">
         <label for="input-name">Full Name</label>
-        <input type="text" id="input-name" required placeholder="e.g. Charlotte Holzapfel" autocomplete="name">
+        <input type="text" id="input-name" required placeholder="e.g. Jane Doe" autocomplete="name">
       </div>
       <div class="form-group">
         <label for="input-email">UGA Email Address</label>
@@ -284,8 +317,8 @@
 </section>
 
 <script>
-  // 
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby869wai6a88L7yWuvXHEo5SzGpVJgQaXchCk2uIx_smVBM1zqSA9YGxlmr5lmFd6ko7Q/exec";
+  // Paste your deployed Apps Script /exec URL here.
+  const SCRIPT_URL = "YOUR_EXACT_DEPLOYED_APPS_SCRIPT_URL_HERE";
   const POLL_MS = 30000;
   const MAX_FILE_MB = 8; // Apps Script request limit makes very large files unreliable
 
@@ -477,7 +510,7 @@
       await refresh();
     } catch (ex) {
       console.error(ex);
-      err.textContent = 'Submission failed. Please try again.';
+      err.textContent = 'Submission failed: ' + (ex && ex.message ? ex.message : 'unknown error') + ' — please try again.';
     } finally {
       btn.disabled = false; btn.textContent = 'Submit';
     }
